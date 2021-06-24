@@ -16,7 +16,7 @@ Yes, external developers can modify Coldcard... We've saved 128k of flash just f
 ![dev-warning screen](dev-warning.png)
 
 - to get green light, the user (who knows the main PIN) must do the "bless" operation
-- you can distrubute your DFU file to the world
+- you can distribute your DFU file to the world
 - you can take factory-fresh Coldcards, destroy the tamper-evident bag, and load your
   firmware onto them before shipping to your customers.
 
