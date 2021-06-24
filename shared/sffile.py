@@ -160,7 +160,7 @@ class SFFile:
             from glob import dis
             dis.progress_bar_show(self.pos / self.length)
 
-        # altho tempting to return a bytearray (which we already have) many
+        # although tempting to return a bytearray (which we already have) many
         # callers expect return to be bytes and have those methods, like "find"
         return bytes(rv)
 
