@@ -58,7 +58,7 @@
 ## 4.0.1 - March 29, 2021
 
 - Fixes security issue in v4.0.0. (3.x.x Unaffected)
-- Known issue: formating of SD Card does not work and leads to a crash.
+- Known issue: formatting of SD Card does not work and leads to a crash.
 
 ## 4.0.0 - March 17, 2021
 
@@ -119,10 +119,10 @@
       wallet (not supported anymore, bad idea). Various displays updated to reflect
       derivation path change.  Text file import: "Derivation:" line can be repeated,
       applies to all following xpubs.
-    - Show Ypub/Zpub formated values from SLIP-132 when viewing details of wallet.
+    - Show Ypub/Zpub formatted values from SLIP-132 when viewing details of wallet.
     - Standardize on "p2sh-p2wsh" nomenclature, rather than "p2wsh-p2sh", thanks
       to [@humanumbrella](https://github.com/humanumbrella). For airgaped multisig wallet 
-      creation, you must use same firmware verison on all Coldcards or this change can
+      creation, you must use same firmware version on all Coldcards or this change can
       make trouble.
     - Address type (p2sh-p2wsh, p2sh, p2wsh) is captured from MS wallets created
       by PSBT file import.
