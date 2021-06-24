@@ -112,7 +112,7 @@ int factory_reset_create_filesystem(void) {
     // LATER:
     // - v3 and earlier relied on the contents of boot.py to operate correctly,
     // so at bootup it verified contents and forced it.
-    // - in v4, file is ignored, so we could delete but let's perserve easy downgrade
+    // - in v4, file is ignored, so we could delete but let's preserve easy downgrade
     // and just do nothing.
     //force_boot_py_contents(&vfs.fatfs);
 
