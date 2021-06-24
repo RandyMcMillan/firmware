@@ -242,7 +242,7 @@ def generate_wasabi_wallet():
     import ustruct, version
 
     # bitcoin (xpub) is used, even for testnet case (ie. no tpub)
-    # - altho, doesn't matter; the wallet operates based on it's own settings for test/mainnet
+    # - although, doesn't matter; the wallet operates based on it's own settings for test/mainnet
     #   regardless of the contents of the wallet file
     btc = chains.BitcoinMain
 
@@ -292,7 +292,7 @@ def generate_unchained_export(acct_num=0):
     return rv
 
 def generate_generic_export(account_num=0):
-    # Generate data that other programers will use to import Coldcard (single-signer)
+    # Generate data that other programmers will use to import Coldcard (single-signer)
     from public_constants import AF_CLASSIC, AF_P2WPKH, AF_P2WPKH_P2SH, AF_P2WSH, AF_P2WSH_P2SH
     from public_constants import AF_P2SH
 
