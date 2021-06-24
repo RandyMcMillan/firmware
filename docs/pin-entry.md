@@ -248,7 +248,7 @@ their coins are just as precious to them, as Bitcoin are to us.
 What we've done to satisfy these needs is as follows:
 
 - the bootloader knows and trusts five public keys
-- main firmware code is always checksumed and needs a correct signature
+- main firmware code is always checksummed and needs a correct signature
 - (the private part of) key zero has been published on Github as part of the source tree.
 - keys 1 through 4 are factory keys we will keep secret.
 - official releases are using key 1 for now, but
@@ -693,7 +693,7 @@ improve Coldcard security as follows:
 
 - The limited-use counter is now connected to pin attempts inside the 608a chip.
   So, the 608a compares the number of PIN attempts, and if too many failures
-  have occured, the secure element bricks itself.
+  have occurred, the secure element bricks itself.
 
 - Using a HMAC-SHA256 inside the chip, we create a HMAC chain using a secret
   known only to the secure element (and unique per Coldcard) as the
