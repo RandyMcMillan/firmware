@@ -407,7 +407,7 @@ class QRDisplay(UserInteraction):
         # - see <https://www.qrcode.com/en/about/version.html>
         # - to display 29x29 pixels, we have to double them up: 58x58
         # - not really providing enough space around it
-        # - inverted QR (black/white swap) still readable by scanners, altho wrong
+        # - inverted QR (black/white swap) still readable by scanners, although wrong
 
         from utils import imported
 
@@ -418,7 +418,7 @@ class QRDisplay(UserInteraction):
                 assert len(msg) <= 47
                 msg = msg.upper()
             else:
-                # has to be 'binary' mode, altho shorter msg, typical 34-36
+                # has to be 'binary' mode, although shorter msg, typical 34-36
                 enc = uqr.Mode_BYTE
                 assert len(msg) <= 42
 

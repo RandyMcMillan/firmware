@@ -2,7 +2,7 @@
 #
 # Seed XOR Feature
 # - use bitwise XOR on 24-word phrases
-# - for secret spliting on paper
+# - for secret splitting on paper
 # - all combination of partial XOR seed phrases are working wallets
 #
 import stash, ngu, chains, bip39, random
@@ -29,7 +29,7 @@ Seed XOR Split
 This feature splits your BIP-39 seed phrase into multiple parts. \
 Each part is 24 words and looks and functions as a normal BIP-39 wallet.
 
-We recommend spliting into just two parts, but permit up to four.
+We recommend splitting into just two parts, but permit up to four.
 
 If ANY ONE of the parts is lost, then ALL FUNDS are lost and the original \
 seed phrase cannot be reconstructed.
