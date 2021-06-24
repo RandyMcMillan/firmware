@@ -6,7 +6,7 @@
 # - connected to "onewire" on PA0
 # - not a standard "onewire" interface at all
 # - full datasheet is under NDA (unfortunately, bad policy)
-# - but very simmilar to ATSHA204 and family chips
+# - but very similar to ATSHA204 and family chips
 # - bootloader can also read/write to this chip
 # - XXX presently broken.
 #
@@ -695,7 +695,7 @@ class SecureElement:
         #  72 bytes long, formatted as follows: 4 pad bytes, 32 bytes of X, four pad bytes,
         #  then 32 bytes of Y."
         # - putting the 0x50 marks it as "validated", which is a little bogus, but has
-        #   nice side-effect of making the key show as "valid" in Info reponse.
+        #   nice side-effect of making the key show as "valid" in Info response.
 
         msg = b'\x50' + (b'\0'*3) + pubxy[0:32] + b'\x50' + (b'\0'*3) + pubxy[32:64]
         assert len(msg) == 72
