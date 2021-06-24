@@ -45,7 +45,7 @@ class NumpadBase:
 
     def _key_event(self, key):
         if key != self.key_pressed:
-            # annouce change
+            # announce change
             self.key_pressed = key
 
             if self._changes.full():

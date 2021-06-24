@@ -1,4 +1,4 @@
-# freeze everything in this directoy
+# freeze everything in this directory
 freeze_as_mpy('', [
 	'actions.py',
 	'address_explorer.py',

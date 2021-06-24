@@ -526,7 +526,7 @@ class HSMPolicy:
         self.reset_period()
 
         if self.boot_to_hsm and not new_file:
-            # In boot-to-HSM mode, we cant be sure PIN holder has authority
+            # In boot-to-HSM mode, we can't be sure PIN holder has authority
             # to spend, so maybe they are rebooting to reset the period.
             # Assume period has already been used up (conservative model)
             for r in self.rules:

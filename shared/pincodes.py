@@ -75,7 +75,7 @@ EPIN_OLD_AUTH_FAIL  = const(-113)
     uint32_t    delay_achieved;         // so far, how much time wasted? [508a only]
     uint32_t    delay_required;         // how much will be needed? [508a only]
     uint32_t    num_fails;              // for UI: number of fails PINs
-    uint32_t    attempts_left;          // trys left until bricking [608a only]
+    uint32_t    attempts_left;          // tries left until bricking [608a only]
     uint32_t    state_flags;            // what things have been setup/enabled already
     uint32_t    private_state;          // some internal (encrypted) state
     uint8_t     hmac[32];               // bootloader's hmac over above, or zeros

@@ -243,7 +243,7 @@ class MenuSystem:
                 self.cursor = 0
                 self.ypos = 0
             elif key in '1234':
-                # jump down, based on screen postion
+                # jump down, based on screen position
                 self.goto_n(ord(key)-ord('1'))
             elif key == 'y':
                 # selected

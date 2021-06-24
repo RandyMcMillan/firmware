@@ -32,7 +32,7 @@ from utils import call_later_ms
 #   words = (bool) BIP-39 seed words exist (else XPRV or master secret based)
 #   b39skip = (bool) skip discussion about use of BIP-39 passphrase
 #   idle_to = idle timeout period (seconds)
-#   _age = internal verison number for data (see below)
+#   _age = internal version number for data (see below)
 #   terms_ok = customer has signed-off on the terms of sale
 #   tested = selftest has been completed successfully
 #   multisig = list of defined multisig wallets (complex)
@@ -59,7 +59,7 @@ from utils import call_later_ms
 # where in SPI Flash we work (last 128k)
 SLOTS = range((1024-128)*1024, 1024*1024, 4096)
 
-# Altho seems bad to statically alloc this big block, it solves
+# Although seems bad to statically alloc this big block, it solves
 # concerns with heap fragmentation, and saving settings is clearly
 # core to our mission!
 # 4k, but last 32 bytes are a SHA (itself encrypted)
@@ -75,7 +75,7 @@ class SettingsObject:
         self.nvram_key = b'\0'*32
         self.capacity = 0
         self.current = self.default_values()
-        self.overrides = {}         # volatile overide values
+        self.overrides = {}         # volatile override values
 
         self.load(dis)
 

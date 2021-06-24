@@ -365,7 +365,7 @@ async def make_new_wallet():
 async def approve_word_list(seed):
     # Force the user to write the seeds words down, give a quiz, then save them.
 
-    # LESSON LEARNED: if the user is writting down the words, as we have
+    # LESSON LEARNED: if the user is writing down the words, as we have
     # vividly instructed, then it's a big deal to lose those words and have to start
     # over. So confirm that action, and don't volunteer it.
 
@@ -477,7 +477,7 @@ def set_bip39_passphrase(pw):
         sv.capture_xpub()
 
     # Might need to bounce the USB connection, because our pubkey has changed,
-    # altho if they have already picked a shared session key, no need, and
+    # although if they have already picked a shared session key, no need, and
     # would only affect MitM test, which has already been done.
 
 async def remember_bip39_passphrase():
