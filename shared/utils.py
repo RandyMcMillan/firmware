@@ -176,7 +176,7 @@ def str2xfp(txt):
 
 def problem_file_line(exc):
     # return a string of just the filename.py and line number where
-    # an exception occured. Best used on AssertionError.
+    # an exception occurred. Best used on AssertionError.
     import uio, sys, ure
 
     tmp = uio.StringIO()
