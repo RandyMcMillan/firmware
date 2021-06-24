@@ -36,7 +36,7 @@ glob.dis = dis
 import version, ckcc, uasyncio
 
 if version.is_devmode:
-    # For devs only: allow code in this directory to overide compiled-in stuff. Dangerous!
+    # For devs only: allow code in this directory to override compiled-in stuff. Dangerous!
     # - using relative paths here so works better on simulator
     # - you must boot w/ non-production-signed firmware to get here
     sys.path.insert(0, 'flash/lib')
