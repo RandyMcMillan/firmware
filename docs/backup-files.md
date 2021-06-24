@@ -115,7 +115,7 @@ a real Coldcard to make your own.
 ## Internal Filenames
 
 The internal filename in these examples is `ckcc-backup.txt`, but
-starting in version 4.0.0 of the Coldcard firwmare, your backup
+starting in version 4.0.0 of the Coldcard firmware, your backup
 files will each have a different random filename inside. Use 
 `7z l backup.7z` to view the actual filename inside the 7z file.
 
