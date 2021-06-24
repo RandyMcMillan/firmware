@@ -19,7 +19,7 @@
   Advanced > MicroSD > List Files and pick your file. Thanks to B.O. for this idea.
 - Enhancement: Enable full BIP-85 support on older Mk2 hardware (derived entropy feature).
 - Enhancement: Minor text changes based on feedback from customers.
-- Enhancement: Two assertions promoted to text error messags related to bad PSBT files.
+- Enhancement: Two assertions promoted to text error messages related to bad PSBT files.
 
 ## 3.1.7 - Jul 3, 2020
 
@@ -27,7 +27,7 @@
 
 ## 3.1.6 - Jun 14, 2020
 
-- Bugfix of the bugfix: Clear up assertion error that occured with some specific sizes of
+- Bugfix of the bugfix: Clear up assertion error that occurred with some specific sizes of
   transactions.
 
 ## 3.1.5 - Jun 13, 2020
@@ -46,7 +46,7 @@
 - Enhancement: Export deterministically-derived entropy in the form of
   seed phrases (BIP39), XPRV, private key (WIF), or hex digits using new BIP-85 standard.
   Useful for seeding other wallets from your Coldcard, so you don't need to backup
-  "yet another" seed phrase. Derived values (all types) can be easly recreated from
+  "yet another" seed phrase. Derived values (all types) can be easily recreated from
   Coldcard later, or the backup of the Coldcard. Does not expose the Coldcard's master
   secret, should new wallet be compromised.
 - Bugfix: When scrambled keypad used with the login delay feature, the PIN-entry sequence
@@ -129,7 +129,7 @@
 ## 3.0.5 - Nov 25, 2019
 
 - Address explorer can show QR code for any address (Mk3 only). Press 4 to view. Once
-  shown, press 1 to invert image, and 5/8 for next address. Succesfull scanning requires
+  shown, press 1 to invert image, and 5/8 for next address. Successful scanning requires
   the best phone camera, and some patience, due to limited screen size.
 - Export a command file for Bitcoin Core to create an air-gapped, watch-only wallet.
   Requires v0.18 or higher of Bitcoin Core.
@@ -141,7 +141,7 @@
   special PDF-like template file (example in ../docs/paperwallet.pdf) then it will superimpose
   the QR codes into the template, and save the resulting ready-to-print PDF to MicroSD.
   CAUTION: Paper wallets carry MANY RISKS and should only be used for SMALL AMOUNTS.
-- Adds a "Format Card" command for erasing MicroSD contents and reformating (FAT32).
+- Adds a "Format Card" command for erasing MicroSD contents and reformatting (FAT32).
 - Bugfix: Idle-timeout setting should only take effect after the login countdown.
   Thanks to [@aoeui21](https://twitter.com/aoeui21) for reporting this.
 
