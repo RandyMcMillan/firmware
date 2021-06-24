@@ -57,7 +57,7 @@ def main():
 @click.option('--path-pattern', '-p',
                     default='keys/%02d.pem', type=str, help='Where to put results')
 def make_keys(n, path_pattern):
-    "Constuct new keys (only can be used once)"
+    "Construct new keys (only can be used once)"
     # run once only
 
     from ecdsa.util import randrange_from_seed__trytryagain
@@ -221,7 +221,7 @@ def readback(fname):
 
         print("%16s: %s" % (fld, v))
 
-    # non-useful value, fixed.
+    # useless value, fixed.
     #print('runtime hdr at: 0x%08x' % (0x08008000 + FW_HEADER_OFFSET))
 
     a = sha256(data[0:FW_HEADER_OFFSET+FW_HEADER_SIZE-64])
