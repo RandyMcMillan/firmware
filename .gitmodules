@@ -11,3 +11,20 @@
 [submodule "external/libngu"]
 	path = external/libngu
 	url = https://github.com/switck/libngu.git
+
+[submodule "libs/secp256k1"]
+	path = libngu/libs/secp256k1
+	url = https://github.com/bitcoin-core/secp256k1.git
+[submodule "libs/esp-idf"]
+	path = libngu/libs/esp-idf
+	url = https://github.com/espressif/esp-idf.git
+[submodule "libs/cifra"]
+	path = libngu/libs/cifra
+	url = https://github.com/ctz/cifra.git
+[submodule "libs/mpy"]
+	path = libngu/libs/mpy
+	url = https://github.com/micropython/micropython.git
+[submodule "libs/bech32"]
+	path = libngu/libs/bech32
+	url = https://github.com/sipa/bech32.git
+
