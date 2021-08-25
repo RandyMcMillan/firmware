@@ -283,5 +283,18 @@ else
 	@echo "You have built a bit-for-bit identical copy of Coldcard firmware for v$(VERSION_STRING)"
 endif
 
+.PHONY: brew
+brew:
+
+	bash -c "if hash brew   2>/dev/null; then echo; else bash -c 'curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh' ;fi"
+
+.PHONY: docker
+docker:
+
+	bash -c 'if hash brew   2>/dev/null; then brew install --cask docker; else echo 0; fi'
+	bash -c 'if hash docker 2>/dev/null; then brew install --cask docker; else echo 0; fi'
+
+	bash -c '[ $(shell uname) == 'Darwin'* ] && if hash brew 2>/dev/null; then brew install --cask docker.io; fi'
+	bash -c 'curl -fsSL https://get.docker.com -o get-docker.sh && sudo sh get-docker.sh || [ $(shell uname) == 'Darwin'* ] && brew install --cask docker.io'
 
 # EOF

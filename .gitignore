@@ -24,3 +24,5 @@ __pycache__/
 
 .tags
 pp
+
+stm32/get-docker.sh
