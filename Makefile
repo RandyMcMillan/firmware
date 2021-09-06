@@ -209,13 +209,18 @@ endif
 	@echo 'Give grafana a few minutes to set up...'
 	@echo 'http://localhost:$(PUBLIC_PORT)'
 #######################
+.PHONY: mpy-cross
+mpy-cross:
+	bash -c "pushd external/micropython/mpy-cross &> /dev/null && make && popd &> /dev/null"
+#######################
 .PHONY: unix
-unix:
-	bash -c "set pushdsilent && pushd unix &> /dev/null && make setup ngu-setup"
+unix: mpy-cross
+	#bash -c "pushd external/micropython/mpy-cross &> /dev/null && make && popd &> /dev/null"
+	bash -c "pushd unix &> /dev/null && make setup ngu-setup && popd &> /dev/null"
 #######################
 .PHONY: simulator
 simulator: unix
-	bash -c "set pushdsilent && pushd unix &> /dev/null && make && ./simulator.py"
+	bash -c "pushd unix &> /dev/null && make && ./simulator.py && popd &> /dev/null"
 #######################
 .PHONY: requirements
 requirements:
