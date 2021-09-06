@@ -171,7 +171,9 @@ export PACKAGE_PREFIX
 .PHONY: init
 init:
 ifneq ($(shell id -u),0)
-	git submodule update --init #--recursive
+	git submodule update --init
+	git submodule foreach --recursive 'git rev-parse HEAD | xargs -I {} git fetch origin {} && git reset --hard FETCH_HEAD'
+	git submodule update --recursive
 endif
 ifeq ($(shell id -u),0)
 	@echo 'sudo'
