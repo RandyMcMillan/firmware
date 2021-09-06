@@ -236,6 +236,10 @@ else
 	pushd cli   &> /dev/null && $(PIP) install -r requirements.txt && popd &> /dev/null
 endif
 #######################
+.PHONY: repro
+repro:
+	pushd stm32  &> /dev/null && make repro && popd &> /dev/null
+#######################
 .PHONY: docs
 docs:
 ifneq ($(PIP3),)
@@ -245,9 +249,8 @@ else
 endif
 	mkdocs build -v -f mkdocs.yml 
 	
-	sudo mkdocs serve -a 127.0.0.1:$(PUBLIC_PORT) -f mkdocs.yml & 
-	bash -c "if hash open 2>/dev/null; then open http://127.0.0.1:$(PUBLIC_PORT); fi || echo failed to open http://127.0.0.1:$(PUBLIC_PORT);"
-
+	sudo mkdocs serve -a 127.0.0.1:$(PUBLIC_PORT) -f mkdocs.yml #& 
+	#bash -c "if hash open 2>/dev/null; then open http://127.0.0.1:$(PUBLIC_PORT); fi || echo failed to open http://127.0.0.1:$(PUBLIC_PORT);"
 #######################
 .PHONY: clean
 clean:
