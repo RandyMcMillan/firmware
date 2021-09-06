@@ -43,13 +43,13 @@ ifeq ($(docker),)
 #DOCKER							        := $(shell find /usr/local/bin -name 'docker')
 DOCKER							        := $(shell which docker)
 else
-DOCKER   							:= $(docker)
+DOCKER   							    := $(docker)
 endif
 export DOCKER
 
 ifeq ($(compose),)
-#DOCKER_COMPOSE						        := $(shell find /usr/local/bin -name 'docker-compose')
-DOCKER_COMPOSE						        := $(shell which docker-compose)
+#DOCKER_COMPOSE						    := $(shell find /usr/local/bin -name 'docker-compose')
+DOCKER_COMPOSE						    := $(shell which docker-compose)
 else
 DOCKER_COMPOSE							:= $(compose)
 endif
@@ -141,7 +141,7 @@ endif
 export VERBOSE
 
 ifeq ($(port),)
-PUBLIC_PORT								:= 80
+PUBLIC_PORT								:= $(shell shuf -i 200-700 -n 1)
 else
 PUBLIC_PORT								:= $(port)
 endif
@@ -171,9 +171,7 @@ export PACKAGE_PREFIX
 .PHONY: init
 init:
 ifneq ($(shell id -u),0)
-	#@echo 'not sudo'
-	git config --global status.submoduleSummary true
-	git submodule update --init --recursive
+	git submodule update --init #--recursive
 endif
 ifeq ($(shell id -u),0)
 	@echo 'sudo'
@@ -221,13 +219,28 @@ simulator: unix
 requirements:
 ifneq ($(PIP3),)
 	$(PIP3) install -r requirements.txt
-	pushd unix &> /dev/null && $(PIP3) install -r requirements.txt && popd &> /dev/null
-	pushd cli  &> /dev/null && $(PIP3) install -r requirements.txt && popd &> /dev/null
+	pushd unix  &> /dev/null && $(PIP3) install -r requirements.txt && popd &> /dev/null
+	pushd docs  &> /dev/null && $(PIP3) install -r requirements.txt && popd &> /dev/null
+	pushd cli   &> /dev/null && $(PIP3) install -r requirements.txt && popd &> /dev/null
 else
 	$(PIP) install -r requirements.txt
-	pushd unix &> /dev/null && $(PIP) install -r requirements.txt && popd &> /dev/null
-	pushd cli  &> /dev/null && $(PIP) install -r requirements.txt && popd &> /dev/null
+	pushd unix  &> /dev/null && $(PIP) install -r requirements.txt && popd &> /dev/null
+	pushd docs  &> /dev/null && $(PIP) install -r requirements.txt && popd &> /dev/null
+	pushd cli   &> /dev/null && $(PIP) install -r requirements.txt && popd &> /dev/null
 endif
+#######################
+.PHONY: docs
+docs:
+ifneq ($(PIP3),)
+	pushd docs  &> /dev/null && $(PIP3) install -r requirements.txt && popd &> /dev/null
+else
+	pushd docs  &> /dev/null && $(PIP) install -r requirements.txt && popd &> /dev/null
+endif
+	mkdocs build -v -f mkdocs.yml 
+	
+	sudo mkdocs serve -a 127.0.0.1:$(PUBLIC_PORT) -f mkdocs.yml & 
+	bash -c "if hash open 2>/dev/null; then open http://127.0.0.1:$(PUBLIC_PORT); fi || echo failed to open http://127.0.0.1:$(PUBLIC_PORT);"
+
 #######################
 .PHONY: clean
 clean:
