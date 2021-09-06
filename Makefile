@@ -27,6 +27,16 @@ SERVICE_TARGET							:= $(target)
 endif
 export SERVICE_TARGET
 
+PYTHON                                  := $(shell which python)
+export PYTHON
+PYTHON3                                 := $(shell which python3)
+export PYTHON3
+
+PIP                                     := $(shell which pip)
+export PIP
+PIP3                                    := $(shell which pip3)
+export PIP3
+
 ifeq ($(docker),)
 #DOCKER									:= $(shell find /usr/local/bin -name 'docker')
 DOCKER									:= $(shell which docker)
@@ -135,12 +145,17 @@ export CMD_ARGUMENTS
 #######################
 PACKAGE_PREFIX							:= ghcr.io
 export PACKAGE_PREFIX
+
+#######################
+.PHONY: -
+-: help
 #######################
 .PHONY: init
 init:
 ifneq ($(shell id -u),0)
 	git submodule update --init
 	git submodule foreach --recursive 'git rev-parse HEAD | xargs -I {} git fetch origin {} && git reset --hard FETCH_HEAD'
+	#@echo 'not sudo'
 endif
 ifeq ($(shell id -u),0)
 	@echo 'sudo'
@@ -151,6 +166,30 @@ super:
 ifneq ($(shell id -u),0)
 	sudo -s
 endif
+#######################
+.PHONY: all
+all: init requirements unix
+#######################
+.PHONY: build
+build: init
+	@echo 'build'
+	$(DOCKER_COMPOSE) $(VERBOSE) build $(NOCACHE) statoshi
+	@echo ''
+#######################
+.PHONY: run
+run: build
+	@echo 'run'
+ifeq ($(CMD_ARGUMENTS),)
+	@echo '$(CMD_ARGUMENTS)'
+	$(DOCKER_COMPOSE) $(VERBOSE) -p $(PROJECT_NAME)_$(HOST_UID) run -d --publish $(PUBLIC_PORT):3000 --publish 8125:8125 --publish 8126:8126 --publish 8333:8333 --publish 8332:8332 statoshi sh
+	@echo ''
+else
+	@echo ''
+	$(DOCKER_COMPOSE) $(VERBOSE) -p $(PROJECT_NAME)_$(HOST_UID) run -d --publish $(PUBLIC_PORT):3000 --publish 8125:8125 --publish 8126:8126 --publish 8333:8333 --publish 8332:8332 statoshi sh -c "$(CMD_ARGUMENTS)"
+	@echo ''
+endif
+	@echo 'Give grafana a few minutes to set up...'
+	@echo 'http://localhost:$(PUBLIC_PORT)'
 #######################
 .PHONY: mpy-cross
 mpy-cross:
