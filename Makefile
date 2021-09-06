@@ -152,6 +152,46 @@ ifneq ($(shell id -u),0)
 	sudo -s
 endif
 #######################
+.PHONY: mpy-cross
+mpy-cross:
+	bash -c "pushd external/micropython/mpy-cross &> /dev/null && make && popd &> /dev/null"
+#######################
+.PHONY: unix
+unix: mpy-cross
+	#bash -c "pushd external/micropython/mpy-cross &> /dev/null && make && popd &> /dev/null"
+	bash -c "pushd unix &> /dev/null && make setup ngu-setup && popd &> /dev/null"
+#######################
+.PHONY: simulator
+simulator: unix
+	bash -c "pushd unix &> /dev/null && make && ./simulator.py && popd &> /dev/null"
+#######################
+.PHONY: requirements
+requirements:
+ifneq ($(PIP3),)
+	$(PIP3) install -r requirements.txt
+	pushd unix  &> /dev/null && $(PIP3) install -r requirements.txt && popd &> /dev/null
+	pushd docs  &> /dev/null && $(PIP3) install -r requirements.txt && popd &> /dev/null
+	pushd cli   &> /dev/null && $(PIP3) install -r requirements.txt && popd &> /dev/null
+else
+	$(PIP) install -r requirements.txt
+	pushd unix  &> /dev/null && $(PIP) install -r requirements.txt && popd &> /dev/null
+	pushd docs  &> /dev/null && $(PIP) install -r requirements.txt && popd &> /dev/null
+	pushd cli   &> /dev/null && $(PIP) install -r requirements.txt && popd &> /dev/null
+endif
+#######################
+.PHONY: docs
+docs:
+ifneq ($(PIP3),)
+	pushd docs  &> /dev/null && $(PIP3) install -r requirements.txt && popd &> /dev/null
+else
+	pushd docs  &> /dev/null && $(PIP) install -r requirements.txt && popd &> /dev/null
+endif
+	mkdocs build -v -f mkdocs.yml 
+	
+	sudo mkdocs serve -a 127.0.0.1:$(PUBLIC_PORT) -f mkdocs.yml & 
+	bash -c "if hash open 2>/dev/null; then open http://127.0.0.1:$(PUBLIC_PORT); fi || echo failed to open http://127.0.0.1:$(PUBLIC_PORT);"
+
+#######################
 .PHONY: clean
 clean:
 	@echo 'clean'
