@@ -29,6 +29,16 @@ SERVICE_TARGET							:= $(target)
 endif
 export SERVICE_TARGET
 
+PYTHON                                  := $(shell which python)
+export PYTHON
+PYTHON3                                 := $(shell which python3)
+export PYTHON3
+
+PIP                                     := $(shell which pip)
+export PIP
+PIP3                                    := $(shell which pip3)
+export PIP3
+
 ifeq ($(docker),)
 #DOCKER							        := $(shell find /usr/local/bin -name 'docker')
 DOCKER							        := $(shell which docker)
@@ -116,7 +126,6 @@ export CKCC_GIT_REPO_PATH
 #5917fc199
 #Entering 'external/mpy-qr'
 
-
 ifeq ($(nocache),true)
 NOCACHE								    := --no-cache
 else
@@ -154,12 +163,17 @@ export CMD_ARGUMENTS
 #######################
 PACKAGE_PREFIX                         := ghcr.io
 export PACKAGE_PREFIX
+
+#######################
+.PHONY: -
+-: help
 #######################
 .PHONY: init
 init:
 ifneq ($(shell id -u),0)
-	@echo 'not sudo'
-	git submodule update --init
+	#@echo 'not sudo'
+	git config --global status.submoduleSummary true
+	git submodule update --init --recursive
 endif
 ifeq ($(shell id -u),0)
 	@echo 'sudo'
@@ -170,6 +184,9 @@ super:
 ifneq ($(shell id -u),0)
 	sudo -s
 endif
+#######################
+.PHONY: all
+all: init requirements unix
 #######################
 .PHONY: build
 build: init
@@ -191,6 +208,26 @@ else
 endif
 	@echo 'Give grafana a few minutes to set up...'
 	@echo 'http://localhost:$(PUBLIC_PORT)'
+#######################
+.PHONY: unix
+unix:
+	bash -c "set pushdsilent && pushd unix &> /dev/null && make setup ngu-setup"
+#######################
+.PHONY: simulator
+simulator: unix
+	bash -c "set pushdsilent && pushd unix &> /dev/null && make && ./simulator.py"
+#######################
+.PHONY: requirements
+requirements:
+ifneq ($(PIP3),)
+	$(PIP3) install -r requirements.txt
+	pushd unix &> /dev/null && $(PIP3) install -r requirements.txt && popd &> /dev/null
+	pushd cli  &> /dev/null && $(PIP3) install -r requirements.txt && popd &> /dev/null
+else
+	$(PIP) install -r requirements.txt
+	pushd unix &> /dev/null && $(PIP) install -r requirements.txt && popd &> /dev/null
+	pushd cli  &> /dev/null && $(PIP) install -r requirements.txt && popd &> /dev/null
+endif
 #######################
 .PHONY: clean
 clean:
