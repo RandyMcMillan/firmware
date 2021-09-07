@@ -248,20 +248,7 @@ else
 	pushd docs  &> /dev/null && $(PIP) install -r requirements.txt && popd &> /dev/null
 endif
 	mkdocs build -v -f mkdocs.yml 
-	
 	sudo mkdocs serve -a 127.0.0.1:$(PUBLIC_PORT) -f mkdocs.yml #& 
-	#bash -c "if hash open 2>/dev/null; then open http://127.0.0.1:$(PUBLIC_PORT); fi || echo failed to open http://127.0.0.1:$(PUBLIC_PORT);"
-#######################
-.PHONY: docs
-docs:
-ifneq ($(PIP3),)
-	pushd docs  &> /dev/null && $(PIP3) install -r requirements.txt && popd &> /dev/null
-else
-	$(PIP) install -r requirements.txt
-	pushd unix &> /dev/null && $(PIP) install -r requirements.txt && popd &> /dev/null
-	pushd cli  &> /dev/null && $(PIP) install -r requirements.txt && popd &> /dev/null
-endif
-	mkdocs build -v -f mkdocs.yml 
 #######################
 .PHONY: clean
 clean:
