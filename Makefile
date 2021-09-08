@@ -191,7 +191,7 @@ all: init requirements unix
 .PHONY: build
 build: init
 	@echo 'build'
-	$(DOCKER_COMPOSE) $(VERBOSE) build $(NOCACHE) statoshi
+	$(DOCKER_COMPOSE) $(VERBOSE) build $(NOCACHE) simulator
 	@echo ''
 #######################
 .PHONY: run
