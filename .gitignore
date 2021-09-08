@@ -11,7 +11,7 @@
 
 
 *.log
-ENV
+!ENV
 *.swp
 
 build/

@@ -195,7 +195,7 @@ dis.fullscreen("BareMetal")
             elif not ln or not ln.strip() or ln.startswith('=== ') or 'paste mode' in ln:
                 pass
             else:
-                print(f'junk: {ln}')
+                print('junk:' ,ln)
 
         assert count == (128*1024)//256, count
 
@@ -222,7 +222,7 @@ dis.fullscreen("BareMetal")
             return self.read_sflash()
         elif method in {2, 3}:
             # these methods always die; not helpful for testing
-            print(f"FATAL Callgate(method={method}, arg2={arg2}) => execution would stop")
+            print("FATAL Callgate(method={method}, arg2={arg2}) => execution would stop")
             self.response.write(b'0,\n')
             return
 
@@ -268,7 +268,7 @@ dis.fullscreen("BareMetal")
         assert not rv.startswith('===')
 
         if 1:
-            print(f"Callgate(method={method}, {len(buf_io) if buf_io else 0} bytes, arg2={arg2}) => rv={rv}")
+            print("Callgate(method={method}, {len(buf_io) if buf_io else 0} bytes, arg2={arg2}) => rv={rv}")
 
         self.response.write(rv.encode('ascii') + b'\n')
     

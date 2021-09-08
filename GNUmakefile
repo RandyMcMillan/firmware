@@ -7,6 +7,17 @@ PROJECT_NAME = $(notdir $(PWD))
 # Note. If you change this, you also need to update docker-compose.yml.
 SERVICE_TARGET := simulator
 
+PYTHON                                  := $(shell which python)
+export PYTHON
+PYTHON3                                 := $(shell which python3)
+export PYTHON3
+
+PIP                                     := $(shell which pip)
+export PIP
+PIP3                                    := $(shell which pip3)
+export PIP3
+
+
 ifeq ($(user),)
 # USER retrieved from env, UID from shell.
 HOST_USER ?= $(strip $(if $(USER),$(USER),nodummy))
@@ -89,7 +100,7 @@ report:
 	@echo '        - GIT_USER_EMAIL=${GIT_USER_EMAIL}'
 	@echo '        - GIT_SERVER=${GIT_SERVER}'
 	@echo '        - GIT_PROFILE=${GIT_PROFILE}'
-	@echo '        - GIT_REPO_ORIGIN=${GIT_REPO_ORIGIN}'
+	#@echo '        - GIT_REPO_ORIGIN=${GIT_REPO_ORIGIN}'
 	@echo '        - GIT_REPO_NAME=${GIT_REPO_NAME}'
 	@echo '        - GIT_REPO_PATH=${GIT_REPO_PATH}'
 	@echo '        - DOCKERFILE=${DOCKERFILE}'
@@ -139,7 +150,7 @@ shell: simulator
 
 simulator-build:
 	# only build the container. Note, docker does this also if you apply other targets.
-	docker-compose build simulator
+	docker-compose build ${SERVICE_TARGET}
 
 simulator-rebuild:
 	# force a rebuild by passing --no-cache
