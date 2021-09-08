@@ -20,9 +20,7 @@ RUN apk update \
     && apk add gcc make openssl libressl-dev musl-dev build-base libffi-dev \
     && apk add postgresql \
     && apk add postgresql-dev \
-    && pip install psycopg2 \
-    && apk add jpeg-dev zlib-dev libjpeg \
-    && pip install Pillow
+    && apk add jpeg-dev zlib-dev libjpeg
 
 ARG HOST_UID=${HOST_UID:-4000}
 ARG HOST_USER=${HOST_USER:-nodummy}
@@ -70,7 +68,7 @@ RUN /usr/bin/python3.8 -m pip install pycoin==0.80 mnemonic==0.18 python-bitcoin
 RUN /usr/bin/python3.8 -m pip install onetimepass==1.0.1 zbar-py==1.0.4
 
 RUN /usr/bin/python3.8 -m pip install pyserial PySDL2
-RUN /usr/bin/python3.8 -m pip install pyelftools
+RUN /usr/bin/python3.8 -m pip install pyelftools psycopg2 Pillow
 
 #-r ./external/ckcc-protocol/requirements.txt
 #-r ./testing/requirements.txt
