@@ -12,20 +12,23 @@ services:
     # Run with user priviliges by default.
     user: ${HOST_USER:-nodummy}
     image: ${PROJECT_NAME}:${HOST_USER:-nodummy}
+    privileged: true
     build:
       context: .
       # Build for current user.
       target: user
-      dockerfile: Dockerfile
+      dockerfile: debian.dockerfile
       # These variables are passed to Dockerfile.
       args:
         - HOST_UID=${HOST_UID:-4000}
         - HOST_USER=${HOST_USER:-nodummy}
+        - SSH_PRIVATE_KEY=${SSH_PRIVATE_KEY}
         - ALPINE_VERSION=${ALPINE_VERSION}
         - PASSWORD=${PASSWORD}
     # Run container as a service. Replace with something useful.
     command: ["tail", "-f", "/dev/null"]
     # Copy current (git-) project into container.
     volumes:
+      - ${HOME:-.}:/home/${HOST_USER}
       - ${PWD:-.}:/home/${HOST_USER}/firmware
 

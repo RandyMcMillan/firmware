@@ -10,15 +10,15 @@ export TIME
 ARCH									:= $(shell uname -m)
 export ARCH
 
-ifeq ($(user),)
-HOST_USER								:= root
-HOST_UID								:= $(strip $(if $(uid),$(uid),0))
-else
-HOST_USER								:=  $(strip $(if $(USER),$(USER),nodummy))
-HOST_UID								:=  $(strip $(if $(shell id -u),$(shell id -u),4000))
-endif
-export HOST_USER
-export HOST_UID
+#ifeq ($(user),)
+#HOST_USER								:= root
+#HOST_UID								:= $(strip $(if $(uid),$(uid),0))
+#else
+#HOST_USER								:=  $(strip $(if $(USER),$(USER),nodummy))
+#HOST_UID								:=  $(strip $(if $(shell id -u),$(shell id -u),4000))
+#endif
+#export HOST_USER
+#export HOST_UID
 
 ifeq ($(target),)
 SERVICE_TARGET							?= shell
@@ -27,14 +27,14 @@ SERVICE_TARGET							:= $(target)
 endif
 export SERVICE_TARGET
 
-PYTHON                                  := $(shell which python)
+PYTHON                                  :=$(shell which python)
 export PYTHON
-PYTHON3                                 := $(shell which python3)
+PYTHON3                                 :=$(shell which python3)
 export PYTHON3
 
-PIP                                     := $(shell which pip)
+PIP                                     :=$(shell which pip)
 export PIP
-PIP3                                    := $(shell which pip3)
+PIP3                                    :=$(shell which pip)
 export PIP3
 
 ifeq ($(docker),)
@@ -92,8 +92,8 @@ GIT_HASH								:= $(shell git rev-parse --short HEAD)
 export GIT_HASH
 GIT_PREVIOUS_HASH						:= $(shell git rev-parse --short HEAD~1)
 export GIT_PREVIOUS_HASH
-GIT_REPO_ORIGIN							:= $(shell git remote get-url origin)
-export GIT_REPO_ORIGIN
+#GIT_REPO_ORIGIN							:= $(shell git remote get-url origin)
+#export GIT_REPO_ORIGIN
 GIT_REPO_PATH							:= $(HOME)/$(GIT_REPO_NAME)
 export GIT_REPO_PATH
 
@@ -103,8 +103,8 @@ CKCC_GIT_HASH							:= $(shell set pushdsilent && pushd external/ckcc-protocol  
 export CKCC_GIT_HASH
 CKCC_GIT_PREVIOUS_HASH					:= $(shell set pushdsilent && pushd external/ckcc-protocol  &> /dev/null && git rev-parse --short HEAD~1)
 export CKCC_GIT_PREVIOUS_HASH
-CKCC_GIT_REPO_ORIGIN					:= $(shell set pushdsilent && pushd external/ckcc-protocol  &> /dev/null && git remote get-url origin)
-export CKCC_GIT_REPO_ORIGIN
+#CKCC_GIT_REPO_ORIGIN					:= $(shell set pushdsilent && pushd external/ckcc-protocol  &> /dev/null && git remote get-url origin)
+#export CKCC_GIT_REPO_ORIGIN
 CKCC_GIT_REPO_PATH						:= $(HOME)/$(GIT_REPO_NAME)/external/ckcc-protocol
 export CKCC_GIT_REPO_PATH
 
@@ -153,12 +153,14 @@ export PACKAGE_PREFIX
 .PHONY: init
 init:
 ifneq ($(shell id -u),0)
+	@echo 'not sudo'
 	git submodule update --init
 	git submodule foreach --recursive 'git rev-parse HEAD | xargs -I {} git fetch origin {} && git reset --hard FETCH_HEAD'
-	#@echo 'not sudo'
 endif
 ifeq ($(shell id -u),0)
 	@echo 'sudo'
+	git submodule update --init
+	git submodule foreach --recursive 'git rev-parse HEAD | xargs -I {} git fetch origin {} && git reset --hard FETCH_HEAD'
 endif
 #######################
 .PHONY: super
@@ -179,22 +181,22 @@ unix: mpy-cross
 	#bash -c "pushd external/micropython/mpy-cross &> /dev/null && make && popd &> /dev/null"
 	bash -c "pushd unix &> /dev/null && make setup ngu-setup && popd &> /dev/null"
 #######################
-.PHONY: simulator
-simulator: unix
-	bash -c "pushd unix &> /dev/null && make && ./simulator.py && popd &> /dev/null"
+#.PHONY: simulator
+#simulator: unix
+#	bash -c "pushd unix &> /dev/null && make && ./simulator.py && popd &> /dev/null"
 #######################
 .PHONY: requirements
 requirements:
 ifneq ($(PIP3),)
 	$(PIP3) install -r requirements.txt
-	pushd unix  &> /dev/null && $(PIP3) install -r requirements.txt && popd &> /dev/null
-	pushd docs  &> /dev/null && $(PIP3) install -r requirements.txt && popd &> /dev/null
-	pushd cli   &> /dev/null && $(PIP3) install -r requirements.txt && popd &> /dev/null
+	pushd unix  &> /dev/null && python3 -m $(PIP3) install -r requirements.txt && popd &> /dev/null
+	pushd docs  &> /dev/null && python3 -m $(PIP3) install -r requirements.txt && popd &> /dev/null
+	pushd cli   &> /dev/null && python3 -m $(PIP3) install -r requirements.txt && popd &> /dev/null
 else
 	$(PIP) install -r requirements.txt
-	pushd unix  &> /dev/null && $(PIP) install -r requirements.txt && popd &> /dev/null
-	pushd docs  &> /dev/null && $(PIP) install -r requirements.txt && popd &> /dev/null
-	pushd cli   &> /dev/null && $(PIP) install -r requirements.txt && popd &> /dev/null
+	pushd unix  &> /dev/null && python  -m $(PIP) install -r requirements.txt && popd &> /dev/null
+	pushd docs  &> /dev/null && python  -m $(PIP) install -r requirements.txt && popd &> /dev/null
+	pushd cli   &> /dev/null && python  -m $(PIP) install -r requirements.txt && popd &> /dev/null
 endif
 #######################
 .PHONY: repro
