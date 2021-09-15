@@ -5,26 +5,34 @@
 [submodule "external/ckcc-protocol"]
 	path = external/ckcc-protocol
 	url = https://github.com/Coldcard/ckcc-protocol.git
+	branch = master
 [submodule "external/mpy-qr"]
 	path = external/mpy-qr
 	url = https://github.com/coinkite/mpy-qr.git
+	branch = master
 [submodule "external/libngu"]
 	path = external/libngu
 	url = https://github.com/switck/libngu.git
+	branch = master
 
 [submodule "libs/secp256k1"]
 	path = libngu/libs/secp256k1
 	url = https://github.com/bitcoin-core/secp256k1.git
+	branch = master
 [submodule "libs/esp-idf"]
 	path = libngu/libs/esp-idf
 	url = https://github.com/espressif/esp-idf.git
+	branch = master
 [submodule "libs/cifra"]
 	path = libngu/libs/cifra
 	url = https://github.com/ctz/cifra.git
+	branch = master
 [submodule "libs/mpy"]
 	path = libngu/libs/mpy
 	url = https://github.com/micropython/micropython.git
+	branch = master
 [submodule "libs/bech32"]
 	path = libngu/libs/bech32
 	url = https://github.com/sipa/bech32.git
+	branch = master
 
