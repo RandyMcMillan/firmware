@@ -11,6 +11,10 @@
 [submodule "external/libngu"]
 	path = external/libngu
 	url = https://github.com/switck/libngu.git
+#[submodule "external/libwally-core"]
+#	path = external/libwally-core
+#	url = https://github.com/ElementsProject/libwally-core.git
+#	branch = 808c6098dd046c19f81f8eb11d1630fb4f8f8104
 
 [submodule "libs/secp256k1"]
 	path = libngu/libs/secp256k1
