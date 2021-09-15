@@ -36,7 +36,7 @@ jobs:
           printenv
 
   ubuntu-latest-build_and_test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     steps:
       - uses: styfle/cancel-workflow-action@0.8.0
         with:
@@ -69,6 +69,18 @@ jobs:
         run: |
           /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
           brew install virtualenv
+          #brew install --cask xquartz
+          brew install sdl2 xterm
+          #brew install --cask gcc-arm-embedded
+      - name: install gcc-arm toolchain
+        run: |
+          sudo apt-get remove binutils-arm-none-eabi gcc-arm-none-eabi
+          sudo rm -f /usr/bin/arm-none-eabi-addr2line
+          sudo add-apt-repository ppa:team-gcc-arm-embedded/ppa
+          sudo apt-get update
+          sudo apt-get install gcc-arm-embedded
+          sudo apt-get install gcc-arm-none-eabi
+          sudo apt-get install gdb-arm-none-eabi
           #- name: pip install virtualenv
           #  run: >
           #    pip install virtualenv
