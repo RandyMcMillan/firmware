@@ -189,14 +189,14 @@ unix: mpy-cross
 requirements:
 ifneq ($(PIP3),)
 	$(PIP3) install -r requirements.txt
-	pushd unix  &> /dev/null && python3 -m $(PIP3) install -r requirements.txt && popd &> /dev/null
-	pushd docs  &> /dev/null && python3 -m $(PIP3) install -r requirements.txt && popd &> /dev/null
-	pushd cli   &> /dev/null && python3 -m $(PIP3) install -r requirements.txt && popd &> /dev/null
+	pushd unix  &> /dev/null &&  $(PIP3) install -r requirements.txt && popd &> /dev/null
+	pushd docs  &> /dev/null &&  $(PIP3) install -r requirements.txt && popd &> /dev/null
+	pushd cli   &> /dev/null &&  $(PIP3) install -r requirements.txt && popd &> /dev/null
 else
 	$(PIP) install -r requirements.txt
-	pushd unix  &> /dev/null && python  -m $(PIP) install -r requirements.txt && popd &> /dev/null
-	pushd docs  &> /dev/null && python  -m $(PIP) install -r requirements.txt && popd &> /dev/null
-	pushd cli   &> /dev/null && python  -m $(PIP) install -r requirements.txt && popd &> /dev/null
+	pushd unix  &> /dev/null &&  $(PIP) install -r requirements.txt && popd &> /dev/null
+	pushd docs  &> /dev/null &&  $(PIP) install -r requirements.txt && popd &> /dev/null
+	pushd cli   &> /dev/null &&  $(PIP) install -r requirements.txt && popd &> /dev/null
 endif
 #######################
 .PHONY: repro

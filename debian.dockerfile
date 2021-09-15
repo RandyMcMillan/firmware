@@ -1,4 +1,5 @@
 FROM debian:stretch-slim as user
+ENV GIT_DISABLE_UNTRACKED_CACHE=true
 ARG HOST_UID=${HOST_UID:-4000}
 ARG HOST_USER=${HOST_USER:-nodummy}
 RUN mkdir -p  /home/${HOST_USER} 
@@ -13,16 +14,23 @@ RUN echo "${HOST_USER} ALL=(ALL) ALL" >> /etc/sudoers
 RUN echo "root ALL=(ALL) ALL" >> /etc/sudoers
 RUN echo "Set disable_coredump false" >> /etc/sudo.conf
 
+RUN apt-get update &&  apt-get install -y git
+WORKDIR /home/${HOST_USER}/firmware/
+RUN git init && git submodule update --init
 WORKDIR /home/${HOST_USER}/firmware/external
 RUN apt-get update && \
-    apt-get install -y build-essential libffi-dev git pkg-config python python3 && \
-    rm -rf /var/lib/apt/lists/* && \
-    git clone https://github.com/switck/libngu.git && \
-    git clone https://github.com/coinkite/mpy-qr.git && \
-    git clone https://github.com/Coldcard/ckcc-protocol.git && \
-    git clone https://github.com/Coldcard/micropython.git && \
+    apt-get install -y build-essential libffi-dev git pkg-config python python-pip \
+    python3 python3-pip
+
+RUN echo "..." && \
+    git clone --depth 1 https://github.com/Coldcard/micropython.git && \
+    git clone --depth 1 https://github.com/coinkite/mpy-qr.git && \
+    git clone --depth 1 https://github.com/Coldcard/ckcc-protocol.git && \
+    git clone --depth 1 https://github.com/switck/libngu.git && \
     cd micropython && \
+    git update-index --no-untracked-cache && \
     git submodule update --init && \
+	git submodule foreach --recursive 'git update-index --no-untracked-cache ' && \
 	git submodule foreach --recursive 'git rev-parse HEAD | xargs -I {} git fetch origin {} && git reset --hard FETCH_HEAD' && \
     cd mpy-cross && make && cd .. && \
     cd ports/unix && make axtls && make && make test && make install && \
@@ -30,20 +38,18 @@ RUN apt-get update && \
     cd ../../.. #&& \
     #rm -rf micropython
 
-#CMD ["/usr/local/bin/micropython"]
 RUN apt-get update && apt-get upgrade -y && apt-get install --no-install-recommends -y \
 	adduser automake \
     bash bash-completion binutils bsdmainutils \
     ca-certificates cmake curl doxygen \
-    #diffoscope \
     g++-multilib git \
     libtool libffi6 libffi-dev lbzip2 \
     make nsis \
 	openssh-client openssh-server \
     patch pkg-config \
+    python python-pip \
     python3 python3-pip \
     python3-setuptools \
-    #ripgrep \
     vim virtualenv \
     xz-utils
 
@@ -58,20 +64,14 @@ RUN echo -n ${SSH_PRIVATE_KEY} | base64 --decode >  /home/${HOST_USER}/.ssh/id_r
 RUN  chown -R "${HOST_UID}:${HOST_UID}" /home/${HOST_USER}/.ssh
 RUN chmod 600 /home/${HOST_USER}/.ssh/id_rsa
 
-#RUN git clone https://github.com/bitcoin/bitcoin && mkdir bitcoin/depends/SDKs
-#RUN make download -C bitcoin/depends
-#RUN git clone https://github.com/bitcoin-core/bitcoin-maintainer-tools
-# https://github.com/bitcoin/bitcoin/blob/master/doc/build-windows.md#footnotes
-#RUN update-alternatives --set x86_64-w64-mingw32-g++ /usr/bin/x86_64-w64-mingw32-g++-posix
-
-RUN apt-get update && apt-get upgrade -y && apt-get install --no-install-recommends -y \
-    autotools-dev build-essential libffi-dev git pkg-config python python3
-RUN rm -f  /usr/bin/python && ln -s /usr/bin/python3 /usr/bin/python
+RUN apt-get install --no-install-recommends -y \
+    autotools-dev build-essential libffi-dev git pkg-config python3 python3-pip
 
 WORKDIR /home/${HOST_USER}/firmware
-RUN git init
-RUN git submodule update --init
-RUN git submodule foreach --recursive 'git rev-parse HEAD | xargs -I {} git fetch origin {} && git reset --hard FETCH_HEAD'
+#RUN git init
+#RUN git submodule update --init
+#RUN git submodule foreach --recursive 'git rev-parse HEAD | xargs -I {} git fetch origin {} && git reset --hard FETCH_HEAD'
+
 #WORKDIR /home/${HOST_USER}/firmware/external/libwally-core
 #RUN cd external/libwally-core
 #RUN autoreconf --install --force --warnings=all
@@ -94,3 +94,4 @@ WORKDIR /home/${HOST_USER}/firmware
 #ckcc-protocol[cli]
 
 
+CMD ["/usr/local/bin/micropython"]

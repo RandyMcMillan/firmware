@@ -181,6 +181,18 @@ clean:
 	@docker-compose -p $(PROJECT_NAME)_$(HOST_UID) down --remove-orphans --rmi all 2>/dev/null \
 	&& echo 'Image(s) for "$(PROJECT_NAME):$(HOST_USER)" removed.' \
 	|| echo 'Image(s) for "$(PROJECT_NAME):$(HOST_USER)" already removed.'
+
+.PHONY: prune
+prune:
+	@echo 'prune'
+	$(DOCKER_COMPOSE) -p $(PROJECT_NAME)_$(HOST_UID) down
+	docker system prune -af
+#######################
+.PHONY: prune-network
+prune-network:
+	@echo 'prune-network'
+	$(DOCKER_COMPOSE) -p $(PROJECT_NAME)_$(HOST_UID) down
+	docker network prune -f
 #######################
 -include Makefile
 -include report.mk
