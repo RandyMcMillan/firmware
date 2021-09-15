@@ -1,0 +1,83 @@
+name: automate
+
+# Controls when the action will run. 
+on:
+  pull_request:
+    branches:       #[ master ]
+      - '*'         # matches every branch that doesn't contain a '/'
+      - '*/*'       # matches every branch containing a single '/'
+      - '**'        # matches every branch
+      - 'master'    # includes master
+      - 'main'      # includes main
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    #paths:
+    #  - '.github/workflows/automate.yml'
+    #schedule:
+    #  - cron: "*/5 * * * *"
+    branches:       #[ master ]
+      - '*'         # matches every branch that doesn't contain a '/'
+      - '*/*'       # matches every branch containing a single '/'
+      - '**'        # matches every branch
+      - 'master'    # includes master
+      - 'main'      # includes main
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  github-workspace:
+    name: github-workspace
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Print github workspace
+        run: |
+          printenv
+
+  ubuntu-latest-build_and_test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: styfle/cancel-workflow-action@0.8.0
+        with:
+          access_token: ${{ github.token }}
+      - name: Checkout repository
+        uses: actions/checkout@v2
+          #- name: nuke docker
+          #  run: |
+          #    sudo systemctl stop docker
+          #    sudo rm -rf /var/lib/docker
+          #    sudo rm -rf /etc/docker
+          #    sudo apt-get purge docker-ce docker-ce-cli containerd.io moby-engine moby-cli
+          #- name: Re-install Docker
+          #  run: |
+          #    curl -fsSL https://get.docker.com -o get-docker.sh
+          #    sudo sh get-docker.sh
+          #    docker --version > docker-version.log
+          #    sudo apt-get install docker-compose
+          #    docker-compose --version > docker-compose-version.log
+          #- name: Enable experimental features in Docker
+          #  run: |
+          #    sudo rm -rf /etc/docker/daemon.json
+          #    echo '{"experimental": true}' | sudo tee -a /etc/docker/daemon.json
+          #    sudo systemctl restart docker
+      - name: git clone upstream
+        run: |
+          git remote add upstream https://github.com/Coldcard/firmware.git
+          git fetch --all
+      - name: linuxbrew install
+        run: |
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          brew install virtualenv
+          #- name: pip install virtualenv
+          #  run: >
+          #    pip install virtualenv
+      - name: install, build, and test
+        run: >
+          git submodule update --init && 
+          git submodule foreach --recursive 'git rev-parse HEAD | xargs -I {} git fetch origin {} && git reset --hard FETCH_HEAD' && 
+          pushd external/micropython/mpy-cross && make && popd && 
+          pip install -r requirements.txt && 
+          pip install -r ./unix/requirements.txt && 
+          cd unix && make setup && make & ./simulator.py
+
