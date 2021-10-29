@@ -52,7 +52,7 @@ async def accept_terms(*a):
     # force them to read message...
 
     if settings.get('terms_ok'):
-        return 
+        return
 
     while 1:
         ch = await ux_show_story("""\
@@ -120,7 +120,7 @@ Extended Master Key:
         # show the QR
         from ux import show_qr_code
         await show_qr_code(xpub, False)
-    
+
 
 async def show_settings_space(*a):
 
@@ -313,7 +313,7 @@ THERE IS ABSOLUTELY NO WAY TO RECOVER A FORGOTTEN PIN! Write it down.
 There is ABSOLUTELY NO WAY to 'reset the PIN' or 'factory reset' the Coldcard if you forget the PIN.
 
 DO NOT FORGET THE PIN CODE.
- 
+
 Press 6 to prove you read to the end of this message.''', title='WARNING', escape='6')
 
         if ch == 'x': return
@@ -405,7 +405,7 @@ async def block_until_login(rnd_keypad):
     #
     # Force user to enter a valid PIN.
     # - or accept a bogus one and return T
-    # 
+    #
     from login import LoginUX
     from ux import AbortInteraction
 
@@ -513,7 +513,7 @@ async def login_now(*a):
     # wipe memory and reboot
     from utils import clean_shutdown
     clean_shutdown(2)
-    
+
 
 async def virgin_help(*a):
     await ux_show_story("""\
@@ -606,7 +606,7 @@ This action will certainly cause you to lose all funds associated with this wall
 unless you have a backup of the seed words and know how to import them into a \
 new wallet.\n\nPress 4 to prove you read to the end of this message and accept all \
 consequences.''', escape='4')
-    if ch != '4': 
+    if ch != '4':
         return await ux_aborted()
 
     seed.clear_seed()
@@ -702,7 +702,7 @@ async def version_migration():
     # - long term we generally cannot delete code from here, because we
     #   never know when a user might skip a bunch of intermetiate versions
 
-    # Data migration issue: 
+    # Data migration issue:
     # - "login countdown" feature now stored elsewhere
     had_delay = settings.get('lgto', 0)
     if had_delay:
@@ -819,7 +819,7 @@ async def start_login_sequence():
 
     # implement idle timeout now that we are logged-in
     from imptask import IMPT
-    IMPT.start_task('idle', idle_logout()) 
+    IMPT.start_task('idle', idle_logout())
 
     # Do green-light set immediately after firmware upgrade
     if not pa.is_secondary:
@@ -859,7 +859,7 @@ async def start_login_sequence():
     if not settings.get('du', 0):
         from usb import enable_usb
         enable_usb()
-        
+
 def goto_top_menu():
     # Start/restart menu system
     from menu import MenuSystem
@@ -918,7 +918,7 @@ async def export_xpub(label, _2, item):
         # XFP shortcut
         xfp = xfp2str(settings.get('xfp', 0))
         await show_qr_code(xfp, True)
-        return 
+        return
 
     elif mode == 0:
         path = "m"
@@ -965,14 +965,14 @@ async def export_xpub(label, _2, item):
             await show_qr_code(xpub, False)
 
         break
-        
+
 
 def electrum_export_story(background=False):
     # saves memory being in a function
     return ('''\
 This saves a skeleton Electrum wallet file onto the MicroSD card. \
 You can then open that file in Electrum without ever connecting this Coldcard to a computer.\n
-''' 
+'''
         + (background or 'Choose an address type for the wallet on the next screen.'+PICK_ACCOUNT)
         + SENSITIVE_NOT_SECRET)
 
@@ -1095,7 +1095,7 @@ async def verify_backup(*A):
 def import_from_dice(*a):
     import seed
     return seed.import_from_dice()
-        
+
 async def import_xprv(*A):
     # read an XPRV from a text file and use it.
     import ngu, chains, ure
@@ -1161,9 +1161,9 @@ the start of a line, and probably starts with "xprv".''', title="FAILED")
 
     # restore as if it was a backup (code reuse)
     await restore_from_dict(d)
-   
-    # not reached; will do reset. 
-                            
+
+    # not reached; will do reset.
+
 EMPTY_RESTORE_MSG = '''\
 You must clear the wallet seed before restoring a backup because it replaces \
 the seed value and the old seed would be lost.\n\n\
@@ -1384,7 +1384,7 @@ async def ready2sign(*a):
     # - if nothing, then talk about USB connection
     from public_constants import MAX_TXN_LEN
     import stash
-    
+
     if stash.bip39_passphrase:
         title = '[%s]' % settings.get('xfp')
     else:
@@ -1489,7 +1489,7 @@ async def set_countdown_pin(_1, _2, menu_item):
     s.save()
 
     await ux_dramatic_pause(msg, 3)
-    
+
 
 async def countdown_pin_submenu(*a):
     # Background and settings for duress-countdown pin
@@ -1549,7 +1549,7 @@ async def pin_changer(_1, _2, item):
 
     if pa.is_secondary:
         # secondary wallet user can only change their own password, and the secondary
-        # duress pin... 
+        # duress pin...
         # - now excluded from menu, but keep for Mark1/2 hardware!
         if mode == 'main' or mode == 'brickme':
             await needs_primary()
@@ -1567,7 +1567,7 @@ async def pin_changer(_1, _2, item):
     title, msg = warn[mode]
 
     async def incorrect_pin():
-        await ux_show_story('You provided an incorrect value for the existing %s.' % title, 
+        await ux_show_story('You provided an incorrect value for the existing %s.' % title,
                                 title='Wrong PIN')
         return
 
@@ -1589,7 +1589,7 @@ We strongly recommend all PIN codes used be unique between each other.
 
     if is_login_pin:
         # Challenge them for old password; they probably have it, and we have it
-        # in memory already, because we wouldn't be here otherwise... but 
+        # in memory already, because we wouldn't be here otherwise... but
         # challenge them anyway as a policy choice.
         need_old_pin = True
     else:
@@ -1702,7 +1702,7 @@ We strongly recommend all PIN codes used be unique between each other.
                     node = sv.duress_root()
                     d_secret = SecretStash.encode(xprv=node)
                     sv.register(d_secret)
-        
+
                     # write it out.
                     pa.change(is_duress=True, new_secret=d_secret, old_pin=args['new_pin'])
 
@@ -1753,7 +1753,7 @@ async def ship_wo_bag(*a):
     if not ok: return
 
     import callgate
-    from glob import dis 
+    from glob import dis
     from version import is_devmode
 
     failed = callgate.set_bag_number(b'NOT BAGGED')      # 32 chars max
@@ -1824,7 +1824,7 @@ async def import_multisig(*a):
         await ux_show_story('Failed to import.\n\n%s\n%s' % (e, problem_file_line(e)))
 
 async def start_hsm_menu_item(*a):
-    from hsm_ux import start_hsm_approval 
+    from hsm_ux import start_hsm_approval
     await start_hsm_approval(sf_len=0, usb_mode=False)
 
 async def wipe_hsm_policy(*A):
