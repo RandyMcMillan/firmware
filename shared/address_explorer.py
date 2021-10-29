@@ -37,7 +37,7 @@ class KeypathMenu(MenuSystem):
             # drill down one layer: (nl) is the current leaf
             # - hardened choice first
             p = '%s/%d' % (path, nl)
-            items = [ 
+            items = [
                 MenuItem(p+"'/..", menu=self.deeper),
                 MenuItem(p+"/..",  menu=self.deeper),
                 MenuItem(p+"'", menu=self.done),
@@ -95,9 +95,9 @@ class PickAddrFmtMenu(MenuSystem):
     def __init__(self, path, parent):
         self.parent = parent
         items = [
-            MenuItem("Classic P2PKH", f=self.done, arg=(path, AF_CLASSIC)), 
-            MenuItem("Segwit P2WPKH", f=self.done, arg=(path, AF_P2WPKH)), 
-            MenuItem("P2SH-P2WPKH", f=self.done, arg=(path, AF_P2WPKH_P2SH)), 
+            MenuItem("Classic P2PKH", f=self.done, arg=(path, AF_CLASSIC)),
+            MenuItem("Segwit P2WPKH", f=self.done, arg=(path, AF_P2WPKH)),
+            MenuItem("P2SH-P2WPKH", f=self.done, arg=(path, AF_P2WPKH_P2SH)),
         ]
         super().__init__(items)
         if path.startswith("m/84'"):
@@ -145,7 +145,7 @@ class AddressListMenu(MenuSystem):
 
             stash.blank_object(node)
 
-        items = [MenuItem(address, f=self.pick_single, arg=(path, addr_fmt)) 
+        items = [MenuItem(address, f=self.pick_single, arg=(path, addr_fmt))
                         for i, (address, path, addr_fmt) in enumerate(choices)]
 
         # some other choices
@@ -307,7 +307,7 @@ def generate_address_csv(path, addr_fmt, ms_wallet, account_num, n, start=0):
 
         # For multisig, include redeem script and derivation for each signer
         yield '"' + '","'.join(['Index', 'Payment Address',
-                                    'Redeem Script (%d of %d)' % (ms_wallet.M, ms_wallet.N)] 
+                                    'Redeem Script (%d of %d)' % (ms_wallet.M, ms_wallet.N)]
                                     + (['Derivation'] * ms_wallet.N)) + '"\n'
 
         for (idx, derivs, addr, script) in ms_wallet.yield_addresses(start, n):
