@@ -33,9 +33,10 @@ tools:
 	cd $(PORT_TOP) && $(MAKE) clean
 
 setup:
-	-ln -s $(PORT_TOP) l-port
-	-ln -s $(MPY_TOP) l-mpy
-	-ln -s $(PORT_TOP)/coldcard-mpy coldcard-mpy
+	python3 -m pip install -r requirements.txt
+	-ln -sf $(PORT_TOP) l-port
+	-ln -sf $(MPY_TOP) l-mpy
+	-ln -sf $(PORT_TOP)/coldcard-mpy coldcard-mpy
 	cd $(PORT_TOP) ; git submodule update --init
 	$(MAKE) tools
 	@echo Setup DONE
