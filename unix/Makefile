@@ -18,6 +18,7 @@ MAKE_ARGS = -j 4 VARIANT=coldcard-mpy VARIANT_DIR=$(PWD)/variant CC_TOP=$(CC_TOP
 #		NGU_NEEDS_CIFRA=1 USER_C_MODULES=$(LIB_NGU) NGU_TOP_DIR=$(LIB_NGU)
 
 all:
+	pushd $(MPY_TOP)/mpy-cross && $(MAKE) $(MAKE_ARGS) && popd
 	cd $(PORT_TOP) && $(MAKE) $(MAKE_ARGS)
 
 clean:
@@ -32,7 +33,7 @@ tools:
 	cp $(PORT_TOP)/micropython ./micropython
 	cd $(PORT_TOP) && $(MAKE) clean
 
-setup:
+setup: ngu-setup tools
 	python3 -m pip install -r requirements.txt
 	-ln -sf $(PORT_TOP) l-port
 	-ln -sf $(MPY_TOP) l-mpy
