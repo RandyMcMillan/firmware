@@ -1,8 +1,8 @@
 #!/bin/sh
 #
 # NOTE: Executes inside the docker container.
-# - assumes /work/src is a git checkout
-# - will copy certain files (build products) back to /work/built
+# - assumes $WORK_SRC is a git checkout
+# - will copy certain files (build products) back to $WORK_BUILT
 #
 set -ex
 
@@ -16,7 +16,7 @@ TARGETS="firmware-signed.bin firmware-signed.dfu production.bin dev.dfu firmware
 
 BYPRODUCTS="check-fw.bin check-bootrom.bin repro-got.txt repro-want.txt file_time.c"
 
-cd /work/src/stm32
+cd $WORK_SRC/stm32
 
 if ! touch repro-build.sh ; then
     # If we seem to be on a R/O filesystem:
@@ -24,7 +24,7 @@ if ! touch repro-build.sh ; then
     mkdir /tmp/checkout
     mount -t tmpfs tmpfs /tmp/checkout
     cd /tmp/checkout
-    git clone /work/src/.git firmware
+    git clone $WORK_SRC/.git firmware
     cd firmware/external
     git submodule update --init
     cd ../stm32
@@ -63,16 +63,22 @@ $MAKE setup
 $MAKE DEBUG_BUILD=0 all
 $MAKE $TARGETS
 
-if [ $PWD != '/work/src/stm32' ]; then
+if [ $PWD != '$WORK_SRC/stm32' ]; then
     # Copy back build products.
-    rsync -av --ignore-missing-args $TARGETS /work/built
+    rsync -av --ignore-missing-args $TARGETS $WORK_BUILT
 fi
 
 set +e
 $MAKE "PUBLISHED_BIN=$PUBLISHED_BIN" check-repro
 
 set +ex
-if [ $PWD != '/work/src/stm32' ]; then
+if [ $PWD != '$WORK_SRC/stm32' ]; then
     # Copy back byproducts
-    rsync -a --ignore-missing-args $BYPRODUCTS /work/built
+    rsync -a --ignore-missing-args $BYPRODUCTS $WORK_BUILT
+fi
+
+if [ $CR_EXITCODE -ne 0 ]; then
+    echo "FAILURE."
+    echo "Exit code $CR_EXITCODE from 'make check-repro'"
+    exit 1
 fi
