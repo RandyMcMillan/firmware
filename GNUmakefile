@@ -7,6 +7,11 @@ export THIS_FILE
 TIME                                   := $(shell date +%s)
 export TIME
 
+BREW                                   := $(shell which brew)
+ifneq ($(BREW),)
+    $(shell brew install autogen virtualenv)
+endif
+
 ARCH                                   :=$(shell uname -m)
 export ARCH
 ifeq ($(ARCH),x86_64)
