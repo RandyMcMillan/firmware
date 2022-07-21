@@ -7,8 +7,10 @@ export THIS_FILE
 TIME                                   := $(shell date +%s)
 export TIME
 
-BREW=$(wildcard /usr/local/bin/brew)
+BREW=$(shell which brew)
 export BREW
+APT_GET=$(shell which apt-get)
+export APT_GET
 
 ARCH                                   := $(shell uname -m)
 export ARCH
@@ -239,6 +241,7 @@ report:## 	print environment arguments
 	@echo '        - THIS_FILE=${THIS_FILE}'
 	@echo '        - TIME=${TIME}'
 	@echo '        - BREW=${BREW}'
+	@echo '        - APT_GET=${APT_GET}'
 	@echo '        - ARCH=${ARCH}'
 	@echo '        - TRIPLET=${TRIPLET}'
 	@echo '        - PROJECT_NAME=${PROJECT_NAME}'
@@ -309,6 +312,8 @@ init: venv## 	basic setup
 	git submodule update --init --recursive
 ifneq ($(BREW),)
 	$(shell brew install autogen virtualenv)
+else
+	$(shell apt-get install -y autogen virtualenv)
 endif
 	$(PYTHON3) -m pip install --upgrade pip 2>/dev/null
 	$(PYTHON3) -m pip install -q -r requirements.txt 2>/dev/null
