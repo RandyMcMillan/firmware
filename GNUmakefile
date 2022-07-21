@@ -307,6 +307,9 @@ test-venv:## 	test virutalenv .venv
 init: venv## 	basic setup
 	git config --global --add safe.directory $(PWD)
 	git submodule update --init --recursive
+ifneq ($(BREW),)
+	$(shell brew install autogen virtualenv)
+endif
 	$(PYTHON3) -m pip install --upgrade pip 2>/dev/null
 	$(PYTHON3) -m pip install -q -r requirements.txt 2>/dev/null
 
