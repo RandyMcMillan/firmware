@@ -319,6 +319,18 @@ endif
 	$(PYTHON3) -m pip install --upgrade virtualenv 2>/dev/null
 	$(PYTHON3) -m pip install -q -r requirements.txt 2>/dev/null
 
+.PHONY: unix unix-all unix-clean unix-tags
+unix:
+	pushd unix && $(MAKE)     tools
+	pushd unix && $(MAKE) ngu-setup
+	pushd unix && $(MAKE)     setup
+unix-all:
+	pushd unix && $(MAKE) all
+unix-tags:
+	pushd unix && $(MAKE) tags
+unix-clean:
+	pushd unix && $(MAKE) clean
+
 .PHONY: build
 build: init
 	$(DOCKER_COMPOSE) $(VERBOSE) build --pull $(PARALLEL) --no-rm $(NOCACHE)
