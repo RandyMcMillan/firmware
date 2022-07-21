@@ -8,9 +8,7 @@ TIME                                   := $(shell date +%s)
 export TIME
 
 BREW                                   := $(shell which brew)
-ifneq ($(BREW),)
-    $(shell brew install autogen virtualenv)
-endif
+export BREW
 
 ARCH                                   :=$(shell uname -m)
 export ARCH
