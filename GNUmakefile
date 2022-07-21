@@ -285,6 +285,7 @@ export TARGET_DIR
 .PHONY: all venv test-venv init
 all: init unix## 	all
 venv:## 	create python3 virtualenv .venv
+	$(PYTHON3) -m pip install --upgrade virtualenv 2>/dev/null
 	test -d .venv || $(PYTHON3) -m virtualenv ENV
 	( \
        virtualenv -p python3 ENV; \
@@ -299,6 +300,7 @@ venv:## 	create python3 virtualenv .venv
 	@echo "make test-venv"
 test-venv:## 	test virutalenv .venv
 	# insert test commands here
+	$(PYTHON3) -m pip install --upgrade virtualenv 2>/dev/null
 	test -d .venv || $(PYTHON3) -m virtualenv ENV
 	( \
        virtualenv -p python3 ENV; \
@@ -313,7 +315,8 @@ init: venv## 	basic setup
 	git submodule update --init --recursive
 ifneq ($(BREW),)
 	$(shell brew install autogen virtualenv)
-else
+endif
+ifneq ($(APT_GET),)
 	$(shell apt-get install -y python3-pip autogen)
 endif
 	$(PYTHON3) -m pip install --upgrade pip 2>/dev/null
