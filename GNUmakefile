@@ -280,7 +280,7 @@ export ORIGIN_DIR
 export TARGET_DIR
 
 .PHONY: all venv test-venv init
-all: init## 	all
+all: init unix## 	all
 venv:## 	create python3 virtualenv .venv
 	test -d .venv || $(PYTHON3) -m virtualenv ENV
 	( \
