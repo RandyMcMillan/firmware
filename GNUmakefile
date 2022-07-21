@@ -304,7 +304,8 @@ test-venv:## 	test virutalenv .venv
        virtualenv -p python3 ENV; \
        . ENV/bin/activate; \
        pip install -r testing/requirements.txt; \
-       pytest testing/. \
+       pushd testing;\
+       pytest . \
 	);
 .PHONY: init
 init: venv## 	basic setup
