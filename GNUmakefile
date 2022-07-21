@@ -7,17 +7,17 @@ export THIS_FILE
 TIME                                   := $(shell date +%s)
 export TIME
 
-BREW                                   := $(shell which brew)
+BREW=$(wildcard /usr/local/bin/brew)
 export BREW
 
-ARCH                                   :=$(shell uname -m)
+ARCH                                   := $(shell uname -m)
 export ARCH
 ifeq ($(ARCH),x86_64)
-TRIPLET                                :=x86_64-linux-gnu
+TRIPLET                                := x86_64-linux-gnu
 export TRIPLET
 endif
 ifeq ($(ARCH),arm64)
-TRIPLET                                :=aarch64-linux-gnu
+TRIPLET                                := aarch64-linux-gnu
 export TRIPLET
 endif
 ifeq ($(services),)
@@ -238,6 +238,7 @@ report:## 	print environment arguments
 	@echo '      args:'
 	@echo '        - THIS_FILE=${THIS_FILE}'
 	@echo '        - TIME=${TIME}'
+	@echo '        - BREW=${BREW}'
 	@echo '        - ARCH=${ARCH}'
 	@echo '        - TRIPLET=${TRIPLET}'
 	@echo '        - PROJECT_NAME=${PROJECT_NAME}'
