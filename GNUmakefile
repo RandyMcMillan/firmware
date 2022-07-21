@@ -313,9 +313,10 @@ init: venv## 	basic setup
 ifneq ($(BREW),)
 	$(shell brew install autogen virtualenv)
 else
-	$(shell apt-get install -y autogen virtualenv)
+	$(shell apt-get install -y python3-pip autogen)
 endif
 	$(PYTHON3) -m pip install --upgrade pip 2>/dev/null
+	$(PYTHON3) -m pip install --upgrade virtualenv 2>/dev/null
 	$(PYTHON3) -m pip install -q -r requirements.txt 2>/dev/null
 
 .PHONY: build
