@@ -34,8 +34,8 @@ cd ../cli
 type python3
 sudo -S apt-get install python3-pip
 python3 -m pip install -U --upgrade pip
-python3 -m pip install -U -r requirements.txt
-python3 -m pip install -U --editable .
+# python3 -m pip install -U -r requirements.txt
+# python3 -m pip install -U --editable .
 cd ../stm32
 
 cd ../releases
