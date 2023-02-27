@@ -31,8 +31,11 @@ fi
 
 # need signit.py in path
 cd ../cli
-python -m pip install -r requirements.txt
-python -m pip install --editable .
+type python3
+sudo -S apt-get install python3-pip
+python3 -m pip install -U --upgrade pip
+python3 -m pip install -U -r requirements.txt
+python3 -m pip install -U --editable .
 cd ../stm32
 
 cd ../releases

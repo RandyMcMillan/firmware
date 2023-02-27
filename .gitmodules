@@ -2,12 +2,16 @@
 	path = external/micropython
 	url = https://github.com/Coldcard/micropython.git
 	branch = master
+	ignore = dirty
 [submodule "external/ckcc-protocol"]
 	path = external/ckcc-protocol
 	url = https://github.com/Coldcard/ckcc-protocol.git
+	ignore = dirty
 [submodule "external/mpy-qr"]
 	path = external/mpy-qr
 	url = https://github.com/coinkite/mpy-qr.git
+	ignore = dirty
 [submodule "external/libngu"]
 	path = external/libngu
 	url = https://github.com/switck/libngu.git
+	ignore = dirty
