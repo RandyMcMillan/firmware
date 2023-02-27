@@ -1,12 +1,25 @@
 name: CCFW Reproducible Build
 
 on:
+  pull_request:
+    branches:
+      - '*'
+      - '*/*'
+      - '**'
+      - 'master'
+      - 'main'
   push:
+    branches:
+      - '*'
+      - '*/*'
+      - '**'
+      - 'master'
+      - 'main'
     tags:
       - "*-v*"
       - "*bootloader-*"
 
-workflow_dispatch:
+  workflow_dispatch:
 
 jobs:
   build:
