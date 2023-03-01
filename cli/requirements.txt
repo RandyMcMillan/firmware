@@ -1,4 +1,5 @@
 # only items needed for signit.py
-
+ckcc-protocol
 click>=6.7
 ecdsa>=0.13
+-e .
