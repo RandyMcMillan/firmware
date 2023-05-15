@@ -21,10 +21,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         #if: ${{ !env.ACT }}
-        with:
-          fetch-depth: 10
+        #with:
+        #  fetch-depth: 10
       - run: |
           apk add git
+          git init && git add -f * && git commit -m "alpine-act" || echo
           git init && git add -f * && git commit -m "alpine-act" || echo
           git submodule update --init --recursive
       - run: |
