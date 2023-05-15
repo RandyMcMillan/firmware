@@ -19,6 +19,10 @@ jobs:
     container: arm64v8/alpine
 
     steps:
+      - uses: actions/checkout@v3
+        #if: ${{ !env.ACT }}
+        with:
+          fetch-depth: 10
       - run: |
           apk add git
           git init && git add -f * && git commit -m "alpine-act" || echo
@@ -27,10 +31,6 @@ jobs:
           apk add autoconf automake bash git libtool make musl-dev py-pip python3 rsync
           apk --update-cache add gcc-arm-none-eabi newlib-arm-none-eabi --allow-untrusted --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/
           ln -sf /usr/bin/python3 /usr/bin/python
-      - uses: actions/checkout@v3
-        #if: ${{ !env.ACT }}
-        with:
-          fetch-depth: 10
       - run: |
           ls
           #bash -c "pushd stm32 && make repro && popd"
