@@ -20,6 +20,8 @@ jobs:
 
     steps:
       - run: |
+          apk add git
+          git init && git add * || echo
           git submodule update --init --recursive
       - run: |
           apk add autoconf automake bash git libtool make musl-dev py-pip python3 rsync
@@ -30,5 +32,6 @@ jobs:
         with:
           fetch-depth: 0
       - run: |
+          ls ./stm32
           bash -c "pushd stm32 && make repro && popd"
 
