@@ -23,11 +23,9 @@ jobs:
           apk add autoconf automake bash git libtool make musl-dev py-pip python3 rsync
           apk --update-cache add gcc-arm-none-eabi newlib-arm-none-eabi --allow-untrusted --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/
           ln -sf /usr/bin/python3 /usr/bin/python
-      - run: make submodules
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-
       - run: |
           bash -c "pushd stm32 && make repro && popd"
 

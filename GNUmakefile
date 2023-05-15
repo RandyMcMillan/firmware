@@ -559,8 +559,8 @@ clean-nvm: ## clean-nvm
 	@rm -rf ~/.nvm
 
 act-command:
-	#act -vb --container-architecture linux/arm64/v8 -W .github/workflows/alpine.yml 
-	act -v   --container-architecture linux/arm64/v8 -W .github/workflows/alpine.yml 
+	act -vb --container-architecture linux/arm64/v8 -W .github/workflows/alpine.yml 
+	#act -v   --container-architecture linux/arm64/v8 -W .github/workflows/alpine.yml 
 
 -include funcs.mk
 -include venv.mk
