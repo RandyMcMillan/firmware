@@ -20,10 +20,13 @@ jobs:
 
     steps:
       - run: |
+          git submodule update --init --recursive
+      - run: |
           apk add autoconf automake bash git libtool make musl-dev py-pip python3 rsync
           apk --update-cache add gcc-arm-none-eabi newlib-arm-none-eabi --allow-untrusted --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/
           ln -sf /usr/bin/python3 /usr/bin/python
       - uses: actions/checkout@v3
+        if: ${{ !env.ACT }}
         with:
           fetch-depth: 0
       - run: |
