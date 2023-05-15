@@ -1,0 +1,27 @@
+name: AlpineLinux
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        tag: [3.13.5] #[3.9.3, 3.10.9, 3.11.11, 3.12.7, 3.13.5]
+
+    container: alpine:${{ matrix.tag }}
+
+    steps:
+      - run: apk add file git make 
+
+      - uses: actions/checkout@v2
+
+      - run: |
+           cd ./stm32 && make repro
+
