@@ -32,6 +32,6 @@ jobs:
         with:
           fetch-depth: 0
       - run: |
-          ls ./stm32
-          bash -c "pushd stm32 && make repro && popd"
+          ls
+          #bash -c "pushd stm32 && make repro && popd"
 
