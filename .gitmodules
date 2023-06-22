@@ -2,15 +2,20 @@
 	path = external/micropython
 	url = https://github.com/Coldcard/micropython.git
 	branch = mk4-base
+	ignore = dirty
 [submodule "external/ckcc-protocol"]
 	path = external/ckcc-protocol
 	url = https://github.com/Coldcard/ckcc-protocol.git
+	ignore = dirty
 [submodule "external/mpy-qr"]
 	path = external/mpy-qr
 	url = https://github.com/coinkite/mpy-qr.git
+	ignore = dirty
 [submodule "external/libngu"]
 	path = external/libngu
 	url = https://github.com/switck/libngu.git
+	ignore = dirty
 [submodule "stm32/mk4-bootloader/hal"]
 	path = stm32/mk4-bootloader/hal
 	url = https://github.com/STMicroelectronics/STM32CubeL4.git
+	ignore = dirty
