@@ -222,7 +222,7 @@ else
 endif
 
 submodules: checkbrew## 	submodules
-#	@git submodule update --init --recursive
+	git submodule update --init --recursive
 	git submodule foreach --recursive "git submodule update --init --recursive"
 
 .ONESHELL:
@@ -250,7 +250,7 @@ initialize:## 	initialize
 	@[[ '$(shell uname -m)' == 'x86_64' ]] && [[ '$(shell uname -s)' == 'Darwin' ]] && echo "is_Darwin/x86_64" || echo "not_Darwin/x86_64"
 	@[[ '$(shell uname -m)' == 'x86_64' ]] && [[ '$(shell uname -s)' == 'Linux' ]] && echo "is_Linux/x86_64" || echo "not_Linux/x86_64"
 
-repro-mk-three:## 	repro-mk-three
+repro-mk-three:clean submodules## 	repro-mk-three
 ## 	repro-mk-three
 ## 	:additional help
 #@echo $(git describe --match "20*" --abbrev=0)
@@ -259,7 +259,7 @@ repro-mk-three:## 	repro-mk-three
 	@[[ ! -f releases/$(MK3_VERSION) ]]; curl https://coldcard.com/downloads/$(MK3_VERSION) > releases/$(MK3_VERSION)
 	@cd stm32 && make -f MK3-Makefile repro
 
-repro-mk-four:## 	repro-mk-four
+repro-mk-four:clean submodules## 	repro-mk-four
 ## 	repro-mk-four
 ## 	:additional help
 #@echo $(git describe --match "20*" --abbrev=0)
@@ -282,6 +282,21 @@ venv-test:submodules## 	venv-3-10-test
 tag:## 	tag
 	@git tag $(OS)-$(OS_VERSION)-$(ARCH)-$(shell date +%s)
 	@git push -f --tags
+
+clean:## 	clean
+	@mkdir -p $(PWD)/external/micropython
+	@mkdir -p $(PWD)/external/libngu
+	@mkdir -p $(PWD)/external/mpy-qr
+	@if [[  -z $(PWd)/external/micropython ]]; then \
+		rm -rf $(PWD)/external/mpy-qr; \
+		rm -rf $(PWD)/external/libngu; \
+		rm -rf $(PWD)/external/micropython; \
+		fi;
+	@mkdir -p $(PWD)/stm32/built
+	@if [[ -d $(PWD)/stm32/built ]]; then \
+		rm -rf $(PWD)/stm32/built/**.bin; \
+		fi;
+	$(MAKE) submodules
 
 -include venv.mk
 -include act.mk&
