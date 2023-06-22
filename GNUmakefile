@@ -241,6 +241,7 @@ repro-mk-three:## 	repro-mk3
 
 repro-mk-four:## 	repro-mk4
 ## 	repro-mk4
+	@[[ ! -f releases/2023-04-07T1330-v5.1.2-mk4-coldcard.dfu ]]; curl -o releases/2023-04-07T1330-v5.1.2-mk4-coldcard.dfu  https://coldcard.com/downloads/2023-04-07T1330-v5.1.2-mk4-coldcard.dfu
 	cd stm32 && make -f MK4-Makefile repro
 
 .PHONY: failure
