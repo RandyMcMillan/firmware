@@ -235,6 +235,9 @@ initialize:## 	initialize
 	@[[ '$(shell uname -m)' == 'x86_64' ]] && [[ '$(shell uname -s)' == 'Darwin' ]] && echo "is_Darwin/x86_64" || echo "not_Darwin/x86_64"
 	@[[ '$(shell uname -m)' == 'x86_64' ]] && [[ '$(shell uname -s)' == 'Linux' ]] && echo "is_Linux/x86_64" || echo "not_Linux/x86_64"
 
+repro:
+	cd stm32 && make repro
+
 .PHONY: failure
 failure:
 	@-/usr/bin/false && ([ $$? -eq 0 ] && echo "success!") || echo "failure!"
