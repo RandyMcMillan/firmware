@@ -63,12 +63,18 @@ PROJECT_NAME                            := $(project)
 endif
 export PROJECT_NAME
 
-ifeq ($(version),)
-VERSION                                 := $(shell git describe --match "20*" --abbrev=0)
+ifeq ($(mk3-version),)
+MK3_VERSION                                 := 2023-06-19T1627-v4.1.8-coldcard.dfu
 else
-VERSION                                 := $(version)
+MK3_VERSION                                 := $(mk3-version)
 endif
-export VERSION
+export MK3_VERSION
+ifeq ($(mk4-version),)
+MK4_VERSION                                 := 2023-04-07T1330-v5.1.2-mk4-coldcard.dfu
+else
+MK4_VERSION                                 := $(mk4-version)
+endif
+export MK4_VERSION
 
 GIT_USER_NAME                           := $(shell git config user.name || echo $(PROJECT_NAME))
 export GIT_USER_NAME
@@ -180,7 +186,8 @@ report:## 	report
 	@echo 'TIME=${TIME}'
 	@echo 'BASENAME=${BASENAME}'
 	@echo 'PROJECT_NAME=${PROJECT_NAME}'
-	@echo 'VERSION=${VERSION}'
+	@echo 'MK3_VERSION=${MK3_VERSION}'
+	@echo 'MK4_VERSION=${MK4_VERSION}'
 	@echo 'PYTHON_VENV=${PYTHON_VENV}'
 	@echo 'PYTHON3_VENV=${PYTHON3_VENV}'
 	@echo 'HOMEBREW=${HOMEBREW}'
@@ -247,15 +254,18 @@ repro-mk-three:## 	repro-mk-three
 ## 	repro-mk-three
 ## 	:additional help
 #@echo $(git describe --match "20*" --abbrev=0)
-	@[[ ! -f releases/$(VERSION)-mk3-coldcard.dfu ]]; curl https://coldcard.com/downloads/$(VERSION)-mk3-coldcard.dfu -o releases/$(VERSION)-mk3-coldcard.dfu
-	cd stm32 && make -f MK3-Makefile repro
+## https://coldcard.com/downloads/2023-06-19T1627-v4.1.8-coldcard.dfu
+	@touch releases/$(MK3_VERSION)
+	@[[ ! -f releases/$(MK3_VERSION) ]]; curl https://coldcard.com/downloads/$(MK3_VERSION) > releases/$(MK3_VERSION)
+	@cd stm32 && make -f MK3-Makefile repro
 
 repro-mk-four:## 	repro-mk-four
 ## 	repro-mk-four
 ## 	:additional help
 #@echo $(git describe --match "20*" --abbrev=0)
-	@[[ ! -f releases/$(VERSION)-mk4-coldcard.dfu ]]; curl https://coldcard.com/downloads/$(VERSION)-mk4-coldcard.dfu -o releases/$(VERSION)-mk4-coldcard.dfu  
-	cd stm32 && make -f MK4-Makefile repro
+	@touch releases/$(MK4_VERSION)
+	@[[ ! -f releases/$(MK4_VERSION) ]]; curl https://coldcard.com/downloads/$(MK4_VERSION) > releases/$(MK4_VERSION)
+	@cd stm32 && make -f MK4-Makefile repro
 
 .PHONY: failure
 failure:
