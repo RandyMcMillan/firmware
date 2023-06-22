@@ -1,4 +1,5 @@
 # desktop python modules required to build firmware binaries
+virtualenv
 namedlist
 pyusb
 
