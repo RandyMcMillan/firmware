@@ -246,14 +246,15 @@ initialize:## 	initialize
 repro-mk-three:## 	repro-mk-three
 ## 	repro-mk-three
 ## 	:additional help
-	@[[ ! -f releases/$(VERSION)-mk3-coldcard.dfu ]]; curl -o releases/$(VERSION)-mk3-coldcard.dfu  https://coldcard.com/downloads/$(VERSION)-mk3-coldcard.dfu
+#@echo $(git describe --match "20*" --abbrev=0)
+	@[[ ! -f releases/$(VERSION)-mk3-coldcard.dfu ]]; curl https://coldcard.com/downloads/$(VERSION)-mk3-coldcard.dfu -o releases/$(VERSION)-mk3-coldcard.dfu
 	cd stm32 && make -f MK3-Makefile repro
 
 repro-mk-four:## 	repro-mk-four
 ## 	repro-mk-four
 ## 	:additional help
-	@echo $(git describe --match "20*" --abbrev=0)
-	@[[ ! -f releases/$(VERSION)-mk4-coldcard.dfu ]]; curl -o releases/$(VERSION)-mk4-coldcard.dfu  https://coldcard.com/downloads/$(VERSION)-mk4-coldcard.dfu
+#@echo $(git describe --match "20*" --abbrev=0)
+	@[[ ! -f releases/$(VERSION)-mk4-coldcard.dfu ]]; curl https://coldcard.com/downloads/$(VERSION)-mk4-coldcard.dfu -o releases/$(VERSION)-mk4-coldcard.dfu  
 	cd stm32 && make -f MK4-Makefile repro
 
 .PHONY: failure
