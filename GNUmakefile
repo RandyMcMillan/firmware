@@ -63,6 +63,13 @@ PROJECT_NAME                            := $(project)
 endif
 export PROJECT_NAME
 
+ifeq ($(version),)
+VERSION                                 := $(shell git describe --match "20*" --abbrev=0)
+else
+VERSION                                 := $(version)
+endif
+export VERSION
+
 GIT_USER_NAME                           := $(shell git config user.name || echo $(PROJECT_NAME))
 export GIT_USER_NAME
 GH_USER_NAME                            := $(shell git config user.name || echo $(PROJECT_NAME))
@@ -173,6 +180,7 @@ report:## 	report
 	@echo 'TIME=${TIME}'
 	@echo 'BASENAME=${BASENAME}'
 	@echo 'PROJECT_NAME=${PROJECT_NAME}'
+	@echo 'VERSION=${VERSION}'
 	@echo 'PYTHON_VENV=${PYTHON_VENV}'
 	@echo 'PYTHON3_VENV=${PYTHON3_VENV}'
 	@echo 'HOMEBREW=${HOMEBREW}'
@@ -235,13 +243,17 @@ initialize:## 	initialize
 	@[[ '$(shell uname -m)' == 'x86_64' ]] && [[ '$(shell uname -s)' == 'Darwin' ]] && echo "is_Darwin/x86_64" || echo "not_Darwin/x86_64"
 	@[[ '$(shell uname -m)' == 'x86_64' ]] && [[ '$(shell uname -s)' == 'Linux' ]] && echo "is_Linux/x86_64" || echo "not_Linux/x86_64"
 
-repro-mk-three:## 	repro-mk3
-## 	repro-mk3
+repro-mk-three:## 	repro-mk-three
+## 	repro-mk-three
+## 	:additional help
+	@[[ ! -f releases/$(VERSION)-mk3-coldcard.dfu ]]; curl -o releases/$(VERSION)-mk3-coldcard.dfu  https://coldcard.com/downloads/$(VERSION)-mk3-coldcard.dfu
 	cd stm32 && make -f MK3-Makefile repro
 
-repro-mk-four:## 	repro-mk4
-## 	repro-mk4
-	@[[ ! -f releases/2023-04-07T1330-v5.1.2-mk4-coldcard.dfu ]]; curl -o releases/2023-04-07T1330-v5.1.2-mk4-coldcard.dfu  https://coldcard.com/downloads/2023-04-07T1330-v5.1.2-mk4-coldcard.dfu
+repro-mk-four:## 	repro-mk-four
+## 	repro-mk-four
+## 	:additional help
+	@echo $(git describe --match "20*" --abbrev=0)
+	@[[ ! -f releases/$(VERSION)-mk4-coldcard.dfu ]]; curl -o releases/$(VERSION)-mk4-coldcard.dfu  https://coldcard.com/downloads/$(VERSION)-mk4-coldcard.dfu
 	cd stm32 && make -f MK4-Makefile repro
 
 .PHONY: failure
