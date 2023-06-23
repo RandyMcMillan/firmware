@@ -223,7 +223,7 @@ endif
 
 submodules:## 	submodules
 	git submodule update --init --recursive
-	git submodule foreach --recursive "git submodule update --init --recursive"
+	git submodule foreach --recursive "git submodule update --init; git fetch --all --tags"
 
 .ONESHELL:
 docker-start:
