@@ -214,14 +214,14 @@ ifneq ($(shell id -u),0)
 	sudo -s
 endif
 
-checkbrew:
+checkbrew:## 	
 ifeq ($(HOMEBREW),)
 	@/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 else
 	@type -P brew
 endif
 
-submodules: checkbrew## 	submodules
+submodules:## 	submodules
 	git submodule update --init --recursive
 	git submodule foreach --recursive "git submodule update --init --recursive"
 
@@ -284,18 +284,14 @@ tag:## 	tag
 	@git push -f --tags
 
 clean:## 	clean
-	@mkdir -p $(PWD)/external/micropython
-	@mkdir -p $(PWD)/external/libngu
-	@mkdir -p $(PWD)/external/mpy-qr
-	@if [[  -z $(PWd)/external/micropython ]]; then \
-		rm -rf $(PWD)/external/mpy-qr; \
-		rm -rf $(PWD)/external/libngu; \
-		rm -rf $(PWD)/external/micropython; \
-		fi;
-	@mkdir -p $(PWD)/stm32/built
+	@if [[  -d $(PWd)/external/mpy-qr ]]; then \
+		rm -rf $(PWD)/external/mpy-qr; fi;
+	@if [[  -d $(PWd)/external/libngu ]]; then \
+		rm -rf $(PWD)/external/libngu; fi;
+	@if [[  -d $(PWd)/external/micropython ]]; then \
+		rm -rf $(PWD)/external/micropython; fi;
 	@if [[ -d $(PWD)/stm32/built ]]; then \
-		rm -rf $(PWD)/stm32/built/**.bin; \
-		fi;
+		rm -rf $(PWD)/stm32/built/**.bin; fi;
 	$(MAKE) submodules
 
 -include venv.mk
