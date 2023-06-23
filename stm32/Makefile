@@ -17,6 +17,11 @@ DEBUG_BUILD=$(debug)
 endif
 export DEBUG_BUILD
 
+ifneq ($(verbose),)
+BUILD_VERBOSE=$(verbose)
+endif
+export BUILD_VERBOSE
+
 .DEFAULT:
 	$(MAKE) $(DEBUG_BUILD) -f MK4-Makefile $(MAKECMDGOALS)
 
