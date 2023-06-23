@@ -282,15 +282,9 @@ tag:## 	tag
 	@git push -f --tags
 
 clean:## 	clean
-	@if [[  -d $(PWd)/external/mpy-qr ]]; then \
-		rm -rf $(PWD)/external/mpy-qr; fi;
-	@if [[  -d $(PWd)/external/libngu ]]; then \
-		rm -rf $(PWD)/external/libngu; fi;
-	@if [[  -d $(PWd)/external/micropython ]]; then \
-		rm -rf $(PWD)/external/micropython; fi;
+	@git clean -xfd && git submodule foreach --recursive git clean -xfd && git reset --hard && git submodule foreach --recursive git reset --hard && git submodule update --init --recursive
 	@if [[ -d $(PWD)/stm32/built ]]; then \
 		rm -rf $(PWD)/stm32/built/**.bin; fi;
-	$(MAKE) submodules
 
 -include venv.mk
 -include act.mk&
