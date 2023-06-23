@@ -15,8 +15,13 @@
 
 
 clean clobber rc1:
+	@if [[ -d $(PWD)/stm32/built ]]; then \
+		rm -rf $(PWD)/stm32/built/**.bin; fi;
 	$(MAKE) -f MK4-Makefile $(MAKECMDGOALS)
 	$(MAKE) -f MK3-Makefile $(MAKECMDGOALS)
+
+clean-submodules:
+	@git clean -xfd && git submodule foreach --recursive git clean -xfd && git reset --hard && git submodule foreach --recursive git reset --hard && git submodule update --init --recursive
 
 release repro:
 	$(MAKE) -f MK4-Makefile $(MAKECMDGOALS)
