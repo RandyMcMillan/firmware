@@ -10,8 +10,15 @@
 #	make -f MK3-Makefile
 #
 
+ifeq ($(debug),)
+DEBUG_BUILD=0
+else
+DEBUG_BUILD=$(debug)
+endif
+export DEBUG_BUILD
+
 .DEFAULT:
-	$(MAKE) DEBUG_BUILD=1 -f MK4-Makefile $(MAKECMDGOALS)
+	$(MAKE) $(DEBUG_BUILD) -f MK4-Makefile $(MAKECMDGOALS)
 
 
 clean clobber rc1:
