@@ -1,0 +1,83 @@
+name: ubuntu/mk4
+
+# Controls when the action will run.
+on:
+  pull_request:
+    branches:
+      - '*'
+      - '*/*'
+      - '**'
+      - 'master'
+      - 'main'
+  push:
+    branches:
+      - '*'
+      - '*/*'
+      - '**'
+      - 'master'
+      - 'main'
+
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  mk4:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: styfle/cancel-workflow-action@0.11.0
+        if: ${{ !env.ACT }}
+        with:
+          access_token: ${{ github.token }}
+      - uses: actions/checkout@v3
+      - name: Restore deps
+        id: cache-deps-restore
+        uses: actions/cache/restore@v3
+        #if: ${{ !env.ACT }}
+        with:
+          path: |
+            external
+          key: ${{ runner.os }}-deps
+
+      - name: touch ~/GH_ACT_TOKEN.txt
+        run: |
+          touch ~/GH_ACT_TOKEN.txt
+          echo ${{ secrets.GITHUB_TOKEN }} > ~/GH_ACT_TOKEN.txt
+
+      - name: apt-get_install
+        run: |
+          printenv
+          sudo apt-get update
+          sudo apt-get install -y \
+          python3 make autoconf automake libtool build-essential gettext
+
+      - name: make
+        run: make
+
+      - name: make help
+        run: make help
+
+      - name: make report
+        run: make report
+
+      - name: make submodules
+        run: make submodules
+
+      - name: make initialize
+        run: make initialize
+
+      - name: make repro-mk-four
+        run: make repro-mk-four
+
+
+      - name: Save deps
+        id: cache-deps-save
+        uses: actions/cache/save@v3
+        #if: ${{ !env.ACT }}
+        with:
+          path: |
+            external
+          key: ${{ steps.cache-deps-restore.outputs.cache-primary-key }}
+

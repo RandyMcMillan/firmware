@@ -144,6 +144,7 @@ I18NSPHINXOPTS                           = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 .PHONY: init
 .ONESHELL:
 init:initialize venv##	initialize venv
+## init
 	@echo $(PYTHON)
 	@echo $(PYTHON2)
 	@echo $(PYTHON3)
@@ -180,6 +181,7 @@ help:## 	verbose help
 
 .PHONY: report
 report:## 	report
+## report
 	@echo ''
 	@echo '[ENV VARIABLES]	'
 	@echo ''
@@ -214,7 +216,8 @@ ifneq ($(shell id -u),0)
 	sudo -s
 endif
 
-checkbrew:## 	
+checkbrew:##	
+## checkbrew
 ifeq ($(HOMEBREW),)
 	@/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && $(MAKE) success || $(MAKE) failure
 else
@@ -222,11 +225,13 @@ else
 endif
 
 submodules:## 	submodules
+## submodules
 	git submodule update --init --recursive
 	git submodule foreach --recursive "git submodule update --init; git fetch --all --tags"
 
 .ONESHELL:
 docker-start:
+## docker-start
 	touch requirements.txt
 	test -d .venv || $(PYTHON3) -m virtualenv .venv
 	( \
@@ -247,20 +252,20 @@ docker-start:
 	)
 
 initialize:## 	initialize
+## initialize
 	@[[ '$(shell uname -m)' == 'x86_64' ]] && [[ '$(shell uname -s)' == 'Darwin' ]] && echo "is_Darwin/x86_64" || echo "not_Darwin/x86_64"
 	@[[ '$(shell uname -m)' == 'x86_64' ]] && [[ '$(shell uname -s)' == 'Linux' ]] && echo "is_Linux/x86_64" || echo "not_Linux/x86_64"
 
 repro-mk-three:clean submodules## 	repro-mk-three
-## 	repro-mk-three
+## repro-mk-three
 ## 	:additional help
 #@echo $(git describe --match "20*" --abbrev=0)
-## https://coldcard.com/downloads/2023-06-19T1627-v4.1.8-coldcard.dfu
 	@touch releases/$(MK3_VERSION)
 	@[[ ! -f releases/$(MK3_VERSION) ]]; curl https://coldcard.com/downloads/$(MK3_VERSION) > releases/$(MK3_VERSION)
 	@cd stm32 && make -f MK3-Makefile repro
 
 repro-mk-four:clean submodules## 	repro-mk-four
-## 	repro-mk-four
+## repro-mk-four
 ## 	:additional help
 #@echo $(git describe --match "20*" --abbrev=0)
 	@touch releases/$(MK4_VERSION)
