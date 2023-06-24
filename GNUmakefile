@@ -257,23 +257,23 @@ initialize:## 	initialize
 	@[[ '$(shell uname -m)' == 'x86_64' ]] && [[ '$(shell uname -s)' == 'Linux' ]] && echo "is_Linux/x86_64" || echo "not_Linux/x86_64"
 
 .ONESHELL:
-repro-mk-three:clean submodules## 	repro-mk-three
+repro-mk-three:submodules## 	repro-mk-three
 ## repro-mk-three
 ## 	:additional help
 #@echo $(git describe --match "20*" --abbrev=0)
 	@touch releases/$(MK3_VERSION)
 	@if [[ ! -f releases/$(MK3_VERSION) ]]; then \
-		curl https://coldcard.com/downloads/$(MK3_VERSION) > releases/$(MK3_VERSION); fi;
+		curl https://coldcard.com/downloads/$(MK3_VERSION) -o releases/$(MK3_VERSION); fi;
 	@cd stm32 && make -f MK3-Makefile repro
 
 .ONESHELL:
-repro-mk-four:clean submodules## 	repro-mk-four
+repro-mk-four:submodules## 	repro-mk-four
 ## repro-mk-four
 ## 	:additional help
 #@echo $(git describe --match "20*" --abbrev=0)
 	@touch releases/$(MK4_VERSION)
 	@if [[ ! -f releases/$(MK4_VERSION) ]]; then \
-		curl https://coldcard.com/downloads/$(MK4_VERSION) > releases/$(MK4_VERSION); fi;
+		curl https://coldcard.com/downloads/$(MK4_VERSION) -o releases/$(MK4_VERSION); fi;
 	@cd stm32 && make -f MK4-Makefile repro
 
 failure:
