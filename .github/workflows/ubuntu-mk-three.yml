@@ -1,4 +1,4 @@
-name: ubuntu/mk4
+name: ubuntu/mk3
 
 # Controls when the action will run.
 on:
@@ -21,7 +21,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  mk4:
+  repro:
     strategy:
       matrix:
         os: [ubuntu-latest]
@@ -68,8 +68,8 @@ jobs:
       - name: make initialize
         run: make initialize
 
-      - name: make repro-mk-four
-        run: make repro-mk-four
+      - name: make repro-mk-three
+        run: make repro-mk-three
 
 
       - name: Save deps
